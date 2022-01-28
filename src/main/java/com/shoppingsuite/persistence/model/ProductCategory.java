@@ -3,10 +3,9 @@ package com.shoppingsuite.persistence.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,6 +16,9 @@ public class ProductCategory {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
 
     @Override
     public int hashCode() {

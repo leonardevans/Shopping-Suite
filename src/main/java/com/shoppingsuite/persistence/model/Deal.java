@@ -3,10 +3,8 @@ package com.shoppingsuite.persistence.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Data
@@ -15,6 +13,12 @@ public class Deal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne
+    private Product product;
+
+    private Date startDate;
+    private Date endDate;
 
     @Override
     public int hashCode() {
