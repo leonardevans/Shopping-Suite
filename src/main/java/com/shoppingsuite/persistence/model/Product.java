@@ -21,6 +21,9 @@ public class Product {
     private boolean published;
 
     @ManyToOne
+    private Cart cart;
+
+    @ManyToOne
     private ProductCategory productCategory;
 
     @OneToMany(mappedBy = "product")

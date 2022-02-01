@@ -1,12 +1,12 @@
 package com.shoppingsuite.persistence.model;
 
+import com.shoppingsuite.persistence.enums.OrderStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,6 +15,19 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @OneToMany(mappedBy = "cart")
+    private List<Product> products = new ArrayList<>();
+
+    @ManyToOne
+    private User user;
+
+    @OneToOne(mappedBy = "cart")
+    private Order order;
+
+    private boolean ordered = false;
+    private OrderStatus orderStatus;
+    private double total;
 
     @Override
     public int hashCode() {
