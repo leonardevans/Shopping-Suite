@@ -15,6 +15,8 @@ public class Rating {
     private Long id;
 
     private int value;
+
+    @Column(nullable = false, updatable = false, insertable = false)
     private Timestamp dateRated;
 
     @ManyToOne
@@ -54,6 +56,10 @@ public class Rating {
         final StringBuilder builder = new StringBuilder();
         builder.append("Review [id=")
                 .append(id)
+                .append(", value=").append(value)
+                .append(", dateRated=").append(dateRated)
+                .append(", user=").append(user)
+                .append(", product=").append(product)
                 .append("]");
         return builder.toString();
     }

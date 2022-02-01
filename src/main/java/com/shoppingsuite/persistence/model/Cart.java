@@ -16,7 +16,12 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "cart")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "cart_products",
+            joinColumns = @JoinColumn(name = "cart_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
+    )
     private List<Product> products = new ArrayList<>();
 
     @ManyToOne
@@ -26,7 +31,6 @@ public class Cart {
     private Order order;
 
     private boolean ordered = false;
-    private OrderStatus orderStatus;
     private double total;
 
     @Override
@@ -60,6 +64,10 @@ public class Cart {
         final StringBuilder builder = new StringBuilder();
         builder.append("Cart [id=")
                 .append(id)
+                .append(", products=").append(products)
+                .append(", user=").append(user)
+                .append(", ordered=").append(ordered)
+                .append(", total=").append(total)
                 .append("]");
         return builder.toString();
     }

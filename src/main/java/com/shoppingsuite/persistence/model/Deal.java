@@ -16,6 +16,7 @@ public class Deal {
 
     @ManyToOne
     private Product product;
+    private double dealPrice;
 
     private Date startDate;
     private Date endDate;
@@ -51,6 +52,10 @@ public class Deal {
         final StringBuilder builder = new StringBuilder();
         builder.append("Deal [id=")
                 .append(id)
+                .append(", product=").append(product)
+                .append(", startDate=").append(startDate)
+                .append(", endDate=").append(endDate)
+                .append(", dealPrice=").append(dealPrice)
                 .append("]");
         return builder.toString();
     }

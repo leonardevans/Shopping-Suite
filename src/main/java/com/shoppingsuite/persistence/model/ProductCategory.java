@@ -51,6 +51,8 @@ public class ProductCategory {
         final StringBuilder builder = new StringBuilder();
         builder.append("ProductCategory [id=")
                 .append(id)
+                .append(", name=").append(name)
+                .append(", products=").append(products)
                 .append("]");
         return builder.toString();
     }

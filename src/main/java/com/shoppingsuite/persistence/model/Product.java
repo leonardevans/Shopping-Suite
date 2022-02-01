@@ -20,8 +20,8 @@ public class Product {
     private double stock;
     private boolean published;
 
-    @ManyToOne
-    private Cart cart;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Cart> carts = new ArrayList<>();
 
     @ManyToOne
     private ProductCategory productCategory;
@@ -66,6 +66,14 @@ public class Product {
         final StringBuilder builder = new StringBuilder();
         builder.append("Product [id=")
                 .append(id)
+                .append(", name=").append(name)
+                .append(", price=").append(price)
+                .append(", stock=").append(stock)
+                .append(", published=").append(published)
+                .append(", productCategory=").append(productCategory)
+                .append(", reviews=").append(reviews)
+                .append(", ratings=").append(ratings)
+                .append(", deals=").append(deals)
                 .append("]");
         return builder.toString();
     }

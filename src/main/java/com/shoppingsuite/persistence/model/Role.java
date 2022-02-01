@@ -52,6 +52,7 @@ public class Role {
         builder.append("Role [id=")
                 .append(id)
                 .append(", name=").append(name)
+                .append(", users=").append(users)
                 .append("]");
         return builder.toString();
     }

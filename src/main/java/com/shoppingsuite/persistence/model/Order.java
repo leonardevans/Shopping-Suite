@@ -1,5 +1,6 @@
 package com.shoppingsuite.persistence.model;
 
+import com.shoppingsuite.persistence.enums.OrderStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,9 @@ public class Order {
     @OneToOne()
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
+
+    private OrderStatus orderStatus;
+
 
     @Column(nullable = false, updatable = false, insertable = false)
     private Timestamp orderDate;
@@ -52,6 +56,10 @@ public class Order {
         final StringBuilder builder = new StringBuilder();
         builder.append("Order [id=")
                 .append(id)
+                .append(", cart=").append(cart)
+                .append(", cart=").append(cart)
+                .append(", orderStatus=").append(orderStatus)
+                .append(", orderDate=").append(orderDate)
                 .append("]");
         return builder.toString();
     }

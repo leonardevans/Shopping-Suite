@@ -54,6 +54,10 @@ public class Review {
         final StringBuilder builder = new StringBuilder();
         builder.append("Review [id=")
                 .append(id)
+                .append(", detail=").append(detail)
+                .append(", dateReviewed=").append(dateReviewed)
+                .append(", user=").append(user)
+                .append(", product=").append(product)
                 .append("]");
         return builder.toString();
     }
