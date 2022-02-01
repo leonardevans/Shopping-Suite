@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Data
@@ -18,7 +18,10 @@ public class Deal {
     private Product product;
     private double dealPrice;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
     @Override
