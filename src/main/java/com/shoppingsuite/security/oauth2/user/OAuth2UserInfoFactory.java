@@ -1,5 +1,7 @@
 package com.shoppingsuite.security.oauth2.user;
 
+import com.shoppingsuite.security.oauth2.user.OAuth2UserInfo;
+
 import java.util.Map;
 
 public class OAuth2UserInfoFactory {

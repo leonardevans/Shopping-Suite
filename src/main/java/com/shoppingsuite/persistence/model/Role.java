@@ -19,6 +19,10 @@ public class Role {
 
     private String name;
 
+    public Role(String name) {
+        this.name = name;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 

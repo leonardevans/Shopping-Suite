@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class AuthUtil {
     @Autowired
-    private UserRepo userRepo;
+    private UserRepo userRepository;
 
     public User getLoggedInUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -29,7 +29,7 @@ public class AuthUtil {
             return null;
         }
 
-        Optional<User> optionalUser = userRepo.findByEmail(loggedInUser.getUsername());
+        Optional<User> optionalUser = userRepository.findByEmail(loggedInUser.getUsername());
         return optionalUser.orElse(null);
     }
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*This class is invoked when a user tries to access a protected resource without authentication. In this case, we simply return a 401 Unauthorized response*/
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final Logger logger = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
 
