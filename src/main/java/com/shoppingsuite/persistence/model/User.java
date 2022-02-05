@@ -12,6 +12,7 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "user_account")
 public class User {
     @Id
     @Column(unique = true, nullable = false)

@@ -10,16 +10,17 @@ import java.sql.Timestamp;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "customer_order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne()
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @Column(columnDefinition = "varchar")
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
 

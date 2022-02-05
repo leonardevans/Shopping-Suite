@@ -75,12 +75,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors()
                 .and()
-                .csrf().disable()
-                .httpBasic().disable()
+                .csrf()
+                .disable()
+                .httpBasic()
+                .disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
-                .authorizeHttpRequests()
+                .authorizeRequests()
                 .antMatchers(
                         "/error",
                         "/favicon.ico",
@@ -96,9 +98,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**", "/oauth2/**")
                 .permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling()
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "SELLER")
+                .anyRequest()
+                .authenticated()
+                .and().exceptionHandling()
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
                 .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
@@ -118,7 +121,59 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .successHandler(oAuth2AuthenticationSuccessHandler)
                 .failureHandler(oAuth2AuthenticationFailureHandler);
-
+        // Add our custom Token based authentication filter
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .cors()
+//                .and()
+//                .csrf().disable()
+//                .httpBasic().disable()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+//                .and()
+//                .authorizeHttpRequests()
+//                .antMatchers(
+//                        "/error",
+//                        "/favicon.ico",
+//                        "/**/*.png",
+//                        "/**/*.gif",
+//                        "/**/*.svg",
+//                        "/**/*.jpg",
+//                        "/**/*.html",
+//                        "/**/*.css",
+//                        "/**/*.js"
+//                )
+//                .permitAll()
+//                .antMatchers("/auth/**", "/oauth2/**")
+//                .permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+//                .and()
+//                .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
+//                .and()
+//                .logout().invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll()
+//                .and()
+//                .oauth2Login()
+//                .authorizationEndpoint()
+//                .baseUri("/oauth2/authorize")
+//                .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+//                .and()
+//                .redirectionEndpoint()
+//                .baseUri("/oauth2/callback/*")
+//                .and()
+//                .userInfoEndpoint()
+//                .userService(oAuth2UserService)
+//                .and()
+//                .successHandler(oAuth2AuthenticationSuccessHandler)
+//                .failureHandler(oAuth2AuthenticationFailureHandler);
+//
+//        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+//    }
 }
