@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,19 +23,19 @@ public class Product {
     private boolean published;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Cart> carts = new ArrayList<>();
+    private Set<Cart> carts = new HashSet();
 
     @ManyToOne
     private ProductCategory productCategory;
 
     @OneToMany(mappedBy = "product")
-    private List<Review> reviews = new ArrayList<>();
+    private Set<Review> reviews = new HashSet();
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
-    private List<Rating> ratings = new ArrayList<>();
+    private Set<Rating> ratings = new HashSet();
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<Deal> deals = new ArrayList<>();
+    private Set<Deal> deals = new HashSet();
 
     @Override
     public int hashCode() {

@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,7 +24,7 @@ public class Cart {
             joinColumns = @JoinColumn(name = "cart_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
     )
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
 
     @ManyToOne
     private User user;

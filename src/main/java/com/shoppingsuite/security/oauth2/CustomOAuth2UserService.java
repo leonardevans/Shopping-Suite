@@ -65,7 +65,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setFirstName(oAuth2UserInfo.getUsername());
         user.setEmail(oAuth2UserInfo.getEmail());
 
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         //user role
         Role userRole = roleRepo.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found"));

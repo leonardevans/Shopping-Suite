@@ -19,6 +19,7 @@ public class Order {
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
 
+    @Column(columnDefinition = "varchar")
     private OrderStatus orderStatus;
 
 

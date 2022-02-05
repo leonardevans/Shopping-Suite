@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,17 +29,17 @@ public class User {
     private boolean emailVerified;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Cart> carts = new ArrayList<>();
+    private Set<Cart> carts = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Review> reviews = new ArrayList<>();
+    private Set<Review> reviews = new HashSet<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Rating> ratings = new ArrayList<>();
+    private Set<Rating> ratings = new HashSet<>();
 
     @Override
     public int hashCode() {
