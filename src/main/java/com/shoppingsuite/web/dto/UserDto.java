@@ -1,6 +1,10 @@
 package com.shoppingsuite.web.dto;
 
+import com.shoppingsuite.persistence.model.Role;
 import lombok.Data;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class UserDto {
@@ -10,4 +14,5 @@ public class UserDto {
     private String lastName;
     private String password;
     private boolean enabled;
+    private Set<Role> roles = new HashSet<>();
 }

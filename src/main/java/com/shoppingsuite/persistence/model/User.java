@@ -1,5 +1,6 @@
 package com.shoppingsuite.persistence.model;
 
+import com.shoppingsuite.web.dto.UserDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +28,16 @@ public class User {
     private String password;
 
     private boolean enabled;
-    private boolean emailVerified;
+
+    public User(UserDto userDto) {
+        this.id = userDto.getId();
+        this.firstName = userDto.getFirstName();
+        this.lastName = userDto.getLastName();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+        this.enabled = userDto.isEnabled();
+        this.roles = userDto.getRoles();
+    }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Cart> carts = new HashSet<>();
@@ -84,7 +94,6 @@ public class User {
                 .append(", lastName=").append(lastName)
                 .append(", email=").append(email)
                 .append(", enabled=").append(enabled)
-                .append(", emailVerified=").append(emailVerified)
                 .append(", roles=").append(roles)
                 .append("]");
         return builder.toString();
