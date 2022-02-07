@@ -10,5 +10,4 @@ public class UserDto {
     private String lastName;
     private String password;
     private boolean enabled;
-    private boolean emailVerified;
 }
