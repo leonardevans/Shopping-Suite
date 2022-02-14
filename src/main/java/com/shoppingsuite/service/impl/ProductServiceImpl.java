@@ -64,6 +64,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> search(String search, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return productRepo.findAllByNameContainsOrProductCategoryContains(search, pageable);
+        return productRepo.findAllByNameContainsOrProductCategoryContains(search,search, pageable);
     }
 }

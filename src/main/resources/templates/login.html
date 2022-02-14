@@ -3,27 +3,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/main_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>Shopping Suite - Auth</title>
+    <title>Login</title>
 </head>
 <body>
 
-<!--    registration form-->
-<div class="container" layout:fragment="content">
+<div class="container pb-5" layout:fragment="content">
+
     <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-5">
-                <div class="card-body">
-                    <form class="form-signin" method="post" th:action="@{/login}" autocomplete="off">
-                        <a class="btn btn-lg btn-google btn-danger btn-block text-uppercase" th:href="@{/oauth2/authorize/google}"><i class="fa fa-google mr-2"></i> Login/Sign up with Google</a>
-                    </form>
-                </div>
-            </div>
+        <div class="col-sm-4 col-sm-offset-1">
+            <div class="login-form"><!--login form-->
+                <form action="#">
+                    <a th:href="@{/oauth2/authorize/google}" class="btn btn-danger btn-default text-uppercase"><i class="fa fa-google mr-2"></i>Login Or Sign Up With Google</a>
+                </form>
+            </div><!--/login form-->
         </div>
     </div>
+
 </div>
-
-
 
 </body>
 </html>

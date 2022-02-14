@@ -13,6 +13,6 @@ import java.util.Set;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
     Page<Product> findAllByProductCategoryId(Long productCategoryId, Pageable pageable);
-    Page<Product> findAllByNameContainsOrProductCategoryContains(String search, Pageable pageable);
+    Page<Product> findAllByNameContainsOrProductCategoryContains(String search,String search1, Pageable pageable);
     Page<Product> findAll(Pageable pageable);
 }
