@@ -1,7 +1,6 @@
 package com.shoppingsuite.service;
 
 import com.shoppingsuite.persistence.model.Product;
-import com.shoppingsuite.persistence.model.ProductCategory;
 
 import java.util.Optional;
 import java.util.Set;
@@ -11,6 +10,6 @@ public interface ProductService {
     Optional<Product> getById(Long id);
     boolean delete(Product product);
     boolean deleteById(Long id);
-    Set<Product> getByProductCategory(ProductCategory productCategory);
-    Set<Product> getByProductCategoryId(Long id);
+    Set<Product> getAll(int pageNo, int pageSize);
+    Set<Product> getAllByCategoryId(Long categoryId, int pageNo, int pageSize);
 }
