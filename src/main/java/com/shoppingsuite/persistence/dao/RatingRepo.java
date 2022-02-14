@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface RatingRepo extends JpaRepository<Rating, Long> {
-    List<Rating> findAllByProduct(Product product);
+    Set<Rating> findAllByProduct_Id(Long productId);
 }
