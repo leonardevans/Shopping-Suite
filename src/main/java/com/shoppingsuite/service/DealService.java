@@ -1,6 +1,7 @@
 package com.shoppingsuite.service;
 
 import com.shoppingsuite.persistence.model.Deal;
+import org.springframework.data.domain.Page;
 
 import java.util.Date;
 import java.util.Optional;
@@ -11,7 +12,7 @@ public interface DealService {
     Optional<Deal> getById(Long id);
     boolean delete(Deal deal);
     boolean deleteById(Long id);
-    Set<Deal> getAll(int pageNo, int pageSize);
-    Set<Deal> getAllByStartDate(int pageNo, int pageSize, Date startDate);
-    Set<Deal> getAllByEndDate(int pageNo, int pageSize, Date endDate);
+    Page<Deal> getAll(int pageNo, int pageSize);
+    Page<Deal> getAllByStartDateAfter(int pageNo, int pageSize, Date startDate);
+    Page<Deal> getAllByEndDateBefore(int pageNo, int pageSize, Date endDate);
 }
