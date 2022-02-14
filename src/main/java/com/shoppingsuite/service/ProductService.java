@@ -13,4 +13,5 @@ public interface ProductService {
     boolean deleteById(Long id);
     Page<Product> getAll(int pageNo, int pageSize);
     Page<Product> getAllByCategoryId(Long categoryId, int pageNo, int pageSize);
+    Page<Product> search(String search, int pageNo, int pageSize);
 }

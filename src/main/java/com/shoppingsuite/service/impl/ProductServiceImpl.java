@@ -60,4 +60,10 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         return productRepo.findAllByProductCategoryId(categoryId, pageable);
     }
+
+    @Override
+    public Page<Product> search(String search, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return productRepo.findAllByNameContainsOrProductCategoryContains(search, pageable);
+    }
 }
