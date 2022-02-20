@@ -1,5 +1,12 @@
-<footer th:fragment="footer" id="footer" xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"><!--Footer-->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<!--Footer-->
+<footer th:fragment="footer" id="footer"
+>
     <div class="footer-bottom">
         <div class="container">
             <div class="row">
@@ -8,3 +15,14 @@
         </div>
     </div>
 </footer><!--/Footer-->
+
+<!--Admin footer-->
+<footer class="main-footer" th:fragment="admin-footer" xmlns:th="http://www.thymeleaf.org">
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 1.0
+    </div>
+    <strong>Copyright &copy; 2022 Shopping Suite</a></strong> All rights reserved.
+</footer>
+
+</body>
+</html>
