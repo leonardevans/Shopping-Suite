@@ -5,6 +5,7 @@ import com.shoppingsuite.persistence.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -16,4 +17,7 @@ public interface DealRepo extends JpaRepository<Deal, Long> {
     Page<Deal> findAllByEndDateBeforeOrderByEndDateDesc(Date endDate, Pageable pageable);
     Page<Deal> findAllByStartDateAfterOrderByEndDateDesc(Date startDate, Pageable pageable);
     List<Deal> findAllByProduct_Id(Long productId);
+
+    @Query("SELECT COUNT (d) FROM Deal d")
+    Object getTotalDeals();
 }

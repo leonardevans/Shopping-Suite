@@ -16,7 +16,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </div><!-- /.col -->
@@ -36,10 +36,9 @@
                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">CPU Traffic</span>
-                        <span class="info-box-number">
+                        <span class="info-box-text">Products</span>
+                        <span class="info-box-number" th:text="${totalProducts}">
                   10
-                  <small>%</small>
                 </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -52,8 +51,8 @@
                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Likes</span>
-                        <span class="info-box-number">41,410</span>
+                        <span class="info-box-text">Reviews</span>
+                        <span class="info-box-number" th:text="${totalReviews}">41,410</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -82,14 +81,62 @@
                     <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">New Members</span>
-                        <span class="info-box-number">2,000</span>
+                        <span class="info-box-text">Users</span>
+                        <span class="info-box-number" th:text="${totalUsers}"></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
+
+            <!-- fix for small devices only -->
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Ratings</span>
+                        <span class="info-box-number" th:text="${totalRatings}">760</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Orders</span>
+                        <span class="info-box-number" th:text="${totalOrders}">20</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+            <!-- fix for small devices only -->
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Product Categories</span>
+                        <span class="info-box-number" th:text="${totalProductCategories}">76</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
         </div>
         <!-- /.row -->
 

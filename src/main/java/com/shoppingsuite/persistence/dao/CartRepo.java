@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface CartRepo extends JpaRepository<Cart, Long> {
     Optional<Cart> findByUserAndAndOrdered(User user, boolean ordered);
+
+
 }
