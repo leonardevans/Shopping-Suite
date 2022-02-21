@@ -1,38 +1,3 @@
-<!--<header th:fragment="header" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">-->
-<!--  &lt;!&ndash; Navigation &ndash;&gt;-->
-<!--  &lt;!&ndash;    nav bar is only shown to authenticated users&ndash;&gt;-->
-<!--  <nav class="navbar navbar-expand-lg navbar-light bg-light" sec:authorize="isAuthenticated()">-->
-<!--    <div class="container-fluid">-->
-<!--      <a class="navbar-brand" th:href="@{/}">Shopping Suite</a>-->
-<!--      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--        <span class="navbar-toggler-icon"></span>-->
-<!--      </button>-->
-<!--      <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--        <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-<!--          <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">-->
-<!--            <a class="nav-link" th:href="@{/admin/dashboard}">Categories</a>-->
-<!--          </li>-->
-<!--          <li class="nav-item dropdown">-->
-<!--            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" sec:authentication="name">-->
-<!--              Dropdown-->
-<!--            </a>-->
-<!--            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--              <li><a class="dropdown-item" th:href="@{/user/orders}">Orders</a></li>-->
-<!--              <li><a class="dropdown-item" th:href="@{/user/cart}">Cart</a></li>-->
-<!--              <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>-->
-<!--            </ul>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </nav>-->
-
-<!--</header>-->
-
-
-
-
-
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
@@ -48,17 +13,23 @@
       <div class="row">
         <div class="col-md-4 clearfix">
           <div class="logo pull-left">
-            <a th:href="@{/}"><img th:src="@{images/home/logo.png}" alt="" /></a>
+            <a th:href="@{/}"><img th:src="@{/images/home/logo.png}" alt="" /></a>
           </div>
         </div>
         <div class="col-md-8 clearfix">
           <div class="shop-menu clearfix pull-right">
-            <ul class="nav navbar-nav">
-              <li><a th:href="@{/account}"><i class="fa fa-user"></i> Account</a></li>
+            <ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
+              <li ><a th:href="@{/user/account}"><i class="fa fa-user"></i> Account</a></li>
+              <li><a th:href="@{/admin/dashboard}" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"><i class="fa fa-crosshairs"></i> Dashboard</a></li>
+              <li><a th:href="@{/user/checkout}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+              <li><a th:href="@{/user/orders}"><i class="fa fa-crosshairs"></i> Orders</a></li>
+              <li><a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+              <li><a th:href="@{/logout}"><i class="fa fa-lock"></i> Logout</a></li>
+            </ul>
 
-              <li><a th:href="@{checkout}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-              <li><a th:href="@{cart}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-              <li><a th:href="@{login}"><i class="fa fa-lock"></i> Login</a></li>
+            <ul class="nav navbar-nav" sec:authorize="!isAuthenticated()">
+              <li><a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+              <li><a th:href="@{/login}"><i class="fa fa-lock"></i> Login</a></li>
             </ul>
           </div>
         </div>

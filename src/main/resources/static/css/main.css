@@ -2439,3 +2439,17 @@ textarea {
 .contact-info .social-networks ul li a:hover {
     color: #FE980F;
 }
+
+.logo img{
+    width: 100px !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .logo img {
+        max-width: 70px !important;
+    }
+}
+
+.login-form{
+    padding: 20px ;
+}
