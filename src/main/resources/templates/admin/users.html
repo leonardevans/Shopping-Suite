@@ -99,11 +99,11 @@
             <div class="row mt-5">
                 <div class="col-sm-12 col-md-5">
                     <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing [[
-                        ${pageSize} * ${pageNo} ]] to [[ ${pageSize} * ${pageNo} + ${pageSize}]] of
+                        ${pageSize} * ${currentPage} ]] to [[ ${pageSize} * ${currentPage} + ${pageSize} - 1 ]] of
                         [[${totalItems}]] entries
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-7">
+                <div class="col-sm-12 col-md-7" th:if="${totalPages > 1}">
                     <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                         <ul class="pagination">
                             <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#"
