@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -31,8 +31,21 @@ public class AdminProdCategoryController implements IAdminProdCategoryController
     }
 
     @Override
-    public String createProdCategory(ProdCategoryDto prodCategoryDto) {
-        return null;
+    public String createProdCategory(@Valid @ModelAttribute("prodCategoryDto") ProdCategoryDto prodCategoryDto, BindingResult bindingResult) {
+        ProductCategory productCategory = new ProductCategory(prodCategoryDto);
+
+        //check if category with this name exists
+        if (productCategoryRepo.existsByName(prodCategoryDto.getName())){
+            bindingResult.addError(new FieldError("prodCategoryDto","name", "Product category name exist"));
+        }
+
+        if (bindingResult.hasErrors()){
+            return "/admin/prodCategories/createProdCat";
+        }
+
+        productCategoryRepo.save(new ProductCategory(prodCategoryDto));
+
+        return "redirect:/admin/prodCategories?add_success";
     }
 
     @Override

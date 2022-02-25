@@ -13,6 +13,8 @@ import java.util.List;
 public interface ProductCategoryRepo extends JpaRepository<ProductCategory, Long> {
     List<ProductCategory> findAllByNameContains(String name);
     Page<ProductCategory> findAll(Pageable pageable);
+    boolean existsByName(String name);
+    ProductCategory findByName(String name);
 
     @Query("SELECT COUNT (pc) FROM ProductCategory pc")
     Object getTotalProductCategories();

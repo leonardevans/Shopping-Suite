@@ -1,5 +1,6 @@
 package com.shoppingsuite.persistence.model;
 
+import com.shoppingsuite.web.dto.ProdCategoryDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,9 +20,9 @@ public class ProductCategory {
 
     private String name;
 
-    public ProductCategory(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    public ProductCategory(ProdCategoryDto prodCategoryDto) {
+        this.id = prodCategoryDto.getId();
+        this.name = prodCategoryDto.getName();
     }
 
     @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY)
