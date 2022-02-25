@@ -12,5 +12,5 @@ public interface ProductCategoryService {
     boolean delete(ProductCategory productCategory);
     boolean deleteById(Long id);
     Set<ProductCategory> getAll();
-    Page<ProductCategory> getAll(int pageNo, int pageSize);
+    Page<ProductCategory> getAll(int pageNo, int pageSize, String sortField, String sortDir);
 }

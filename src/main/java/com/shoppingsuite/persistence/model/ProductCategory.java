@@ -19,6 +19,11 @@ public class ProductCategory {
 
     private String name;
 
+    public ProductCategory(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY)
     private Set<Product> products = new HashSet<>();
 
