@@ -50,6 +50,7 @@ public class AdminProductController implements IAdminProductController {
         return null;
     }
 
+    @GetMapping("page/{pageNo}")
     @Override
     public String findPaginated(int pageNo, String sortField, String sortDir, Model model) {
         int pageSize = 10;

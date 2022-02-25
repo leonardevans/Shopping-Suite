@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/admin_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Dashboard</title>
+    <title>Products</title>
 </head>
 <body>
 
@@ -12,12 +12,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Users</h1>
+                <h1 class="m-0">Products</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-                    <li class="breadcrumb-item active">Users</li>
+                    <li class="breadcrumb-item active">Products</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -32,10 +32,10 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Users</h3>
+            <h3 class="card-title">Products</h3>
 
             <div class="card-tools">
-                <a class="btn btn-success btn-sm" th:href="@{/admin/users/add}">
+                <a class="btn btn-success btn-sm" th:href="@{/admin/products/add}">
                     <i class="fas fa-folder">
                     </i>
                     Add
@@ -50,16 +50,16 @@
                         #
                     </th>
                     <th>
-                        First Name
+                        Name
                     </th>
                     <th>
-                        Last Name
+                        Price
                     </th>
                     <th>
-                        Roles
+                        Stock
                     </th>
                     <th>
-                        Enabled
+                        Published
                     </th>
                     <th>
                         actions
@@ -67,25 +67,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user, userCount : ${users}">
-                    <td>[[${__${userCount.index}__ + 1}]]</td>
-                    <td>[[${user.firstName}]]</td>
+                <tr th:each="product, prodCount : ${products}">
+                    <td>[[${__${prodCount.index}__ + 1}]]</td>
+                    <td>[[${product.name}]]</td>
                     <td>
-                        [[${user.lastName}]]
+                        [[${product.price}]]
                     </td>
                     <td>
-                        <span th:each="role : ${user.getRoles()}" th:text="${role.name} + ', '"></span>
+                        [[${product.stock}]]
                     </td>
                     <td>
-                        [[${user.isEnabled}]]
+                        [[${product.isPublished}]]
                     </td>
                     <td>
-                        <a class="btn btn-info btn-sm" th:href="@{/admin/users/edit/{userId} (userId=${user.id})}">
+                        <a class="btn btn-info btn-sm" th:href="@{/admin/products/edit/{prodId} (prodId=${product.id})}">
                             <i class="fas fa-pencil-alt">
                             </i>
                             Edit
                         </a>
-                        <a class="btn btn-danger btn-sm" th:href="@{/admin/users/delete/{userId} (userId=${user.id})}">
+                        <a class="btn btn-danger btn-sm" th:href="@{/admin/products/delete/{prodId} (prodId=${product.id})}">
                             <i class="fas fa-trash">
                             </i>
                             Delete
@@ -99,9 +99,10 @@
             <div class="row mt-5">
                 <div class="col-sm-12 col-md-5" >
                     <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:if="${totalItems > 0}">Showing [[
-                        ${pageSize} * (${currentPage} - 1) +1 ]] to [[ ${pageSize} * (${currentPage} - 1) + ${users.size()} ]] of
+                        ${pageSize} * (${currentPage} - 1) +1 ]] to [[ ${pageSize} * (${currentPage} - 1) + ${products.size()} ]] of
                         [[${totalItems}]] entries
                     </div>
+
                     <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:unless="${totalItems > 0}">Showing 0 of
                         0 entries
                     </div>

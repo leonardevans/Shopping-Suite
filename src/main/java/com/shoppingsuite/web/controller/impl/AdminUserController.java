@@ -37,7 +37,7 @@ public class AdminUserController implements IAdminUserController {
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model) {
-        int pageSize = 10;
+        int pageSize = 1;
 
         Page<User> page = userService.getAll( pageNo, pageSize, sortField, sortDir);
         List< User > userList = page.getContent();
