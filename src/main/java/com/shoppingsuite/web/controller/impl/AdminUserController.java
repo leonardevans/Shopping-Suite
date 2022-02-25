@@ -1,8 +1,9 @@
-package com.shoppingsuite.web.controller;
+package com.shoppingsuite.web.controller.impl;
 
 import com.shoppingsuite.persistence.dao.UserRepo;
 import com.shoppingsuite.persistence.model.User;
 import com.shoppingsuite.service.UserService;
+import com.shoppingsuite.web.controller.IAdminUserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = {"/admin/users/*", "/admin/users"})
-public class AdminUserController implements IAdminUserController{
+public class AdminUserController implements IAdminUserController {
     @Autowired
     UserRepo userRepo;
 

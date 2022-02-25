@@ -1,8 +1,9 @@
-package com.shoppingsuite.web.controller;
+package com.shoppingsuite.web.controller.impl;
 
 import com.shoppingsuite.persistence.dao.ProductCategoryRepo;
 import com.shoppingsuite.persistence.model.ProductCategory;
 import com.shoppingsuite.service.ProductCategoryService;
+import com.shoppingsuite.web.controller.IAdminProdCategoryController;
 import com.shoppingsuite.web.dto.ProdCategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = {"/admin/prodCategories/*", "/admin/prodCategories"})
-public class AdminProdCategoryController implements IAdminProdCategoryController{
+public class AdminProdCategoryController implements IAdminProdCategoryController {
     @Autowired
     private ProductCategoryRepo productCategoryRepo;
 
@@ -79,6 +80,6 @@ public class AdminProdCategoryController implements IAdminProdCategoryController
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("productCategories", productCategoryList);
-        return "/admin/users";
+        return "/admin/prodCategories";
     }
 }

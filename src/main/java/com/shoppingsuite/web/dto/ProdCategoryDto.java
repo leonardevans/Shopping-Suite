@@ -2,8 +2,9 @@ package com.shoppingsuite.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 public class ProdCategoryDto {
@@ -13,6 +14,6 @@ public class ProdCategoryDto {
 
     @Getter
     @Setter
-    @NonNull
+    @NotNull(message = "Product Category name is required")
     private String name;
 }

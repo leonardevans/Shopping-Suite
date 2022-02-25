@@ -1,5 +1,6 @@
 package com.shoppingsuite.persistence.model;
 
+import com.shoppingsuite.web.dto.ProductDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,14 @@ public class Product {
     private double price;
     private double stock;
     private boolean published;
+
+    public Product(ProductDto productDto) {
+        this.id = productDto.getId();
+        this.name = productDto.getName();
+        this.price = productDto.getPrice();
+        this.stock = productDto.getStock();
+        this.published = productDto.isPublished();
+    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Cart> carts = new HashSet();

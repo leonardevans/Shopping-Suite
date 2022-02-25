@@ -1,12 +1,13 @@
-package com.shoppingsuite.web.controller;
+package com.shoppingsuite.web.controller.impl;
 
+import com.shoppingsuite.web.controller.IMainController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MainController implements IMainController{
+public class MainController implements IMainController {
     @Override
     @GetMapping("/login")
     public String showLoginPage() {

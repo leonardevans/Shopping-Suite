@@ -1,7 +1,8 @@
-package com.shoppingsuite.web.controller;
+package com.shoppingsuite.web.controller.impl;
 
 import com.shoppingsuite.persistence.dao.*;
 import com.shoppingsuite.service.UserService;
+import com.shoppingsuite.web.controller.IAdminController;
 import com.shoppingsuite.web.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class AdminController implements IAdminController{
+public class AdminController implements IAdminController {
     @Autowired
     UserRepo userRepo;
 
