@@ -46,22 +46,22 @@
             <table class="table table-striped projects">
                 <thead>
                 <tr>
-                    <th >
+                    <th>
                         #
                     </th>
-                    <th >
+                    <th>
                         First Name
                     </th>
-                    <th >
+                    <th>
                         Last Name
                     </th>
                     <th>
                         Roles
                     </th>
-                    <th >
+                    <th>
                         Enabled
                     </th>
-                    <th >
+                    <th>
                         actions
                     </th>
                 </tr>
@@ -106,30 +106,36 @@
                 <div class="col-sm-12 col-md-7" th:if="${totalPages > 1}">
                     <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
                         <ul class="pagination">
-                            <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#"
-                                                                                                              aria-controls="example2"
-                                                                                                              data-dt-idx="0"
-                                                                                                              tabindex="0"
-                                                                                                              class="page-link">Previous</a>
+                            <li class="paginate_button page-item previous" id="example2_previous">
+
+                                <a th:if="${currentPage > 1}"
+                                   th:href="@{'/admin/users/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                <span class="page-link disabled" th:unless="${currentPage > 1}">Previous <span
+                                        class="sr-only">(current)</span> </span>
                             </li>
-                            <li class="paginate_button page-item active"><a href="#" aria-controls="example2"
-                                                                            data-dt-idx="1" tabindex="0"
-                                                                            class="page-link">1</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2"
-                                                                      tabindex="0" class="page-link">2</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3"
-                                                                      tabindex="0" class="page-link">3</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4"
-                                                                      tabindex="0" class="page-link">4</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5"
-                                                                      tabindex="0" class="page-link">5</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6"
-                                                                      tabindex="0" class="page-link">6</a></li>
-                            <li class="paginate_button page-item next" id="example2_next"><a href="#"
-                                                                                             aria-controls="example2"
-                                                                                             data-dt-idx="7"
-                                                                                             tabindex="0"
-                                                                                             class="page-link">Next</a>
+                            <li th:each="i: ${#numbers.sequence(1, totalPages)}"
+                                th:class="${currentPage != i ? 'paginate_button page-item' : 'paginate_button page-item active'}">
+                                <a th:if="${currentPage != i}"
+                                   th:href="@{'/admin/users/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   aria-controls="example2" data-dt-idx="2"
+                                   tabindex="0" class="page-link">[[${i}]]</a>
+                                <span class="page-link"  th:if="${currentPage == i}">[[${i}]] <span class="sr-only">(current)</span> </span>
+                            </li>
+
+                            <li class="paginate_button page-item next" id="example2_next">
+                                <a th:if="${currentPage < totalPages}"
+                                   th:href="@{'/admin/users/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                                <span class="page-link disabled" th:unless="${currentPage < totalPages}">Next <span
+                                        class="sr-only">(current)</span> </span>
+                            </li>
+                            <li class="paginate_button page-item next" >
+                                <a th:if="${currentPage < totalPages}"
+                                   th:href="@{'/admin/users/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Last</a>
+                                <span class="page-link disabled" th:unless="${currentPage < totalPages}">Last <span
+                                        class="sr-only">(current)</span> </span>
                             </li>
                         </ul>
                     </div>
