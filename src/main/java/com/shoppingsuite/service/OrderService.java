@@ -7,6 +7,6 @@ import java.util.Set;
 
 public interface OrderService {
     Order save(Order order);
-    Page<Order> getAll(int pageNo, int pageSize);
     Set<Order> getByUserId(Long id);
+    Page<Order> getAll(int pageNo, int pageSize, String sortField, String sortDir);
 }

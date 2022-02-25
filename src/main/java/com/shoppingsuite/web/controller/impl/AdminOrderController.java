@@ -1,46 +1,38 @@
 package com.shoppingsuite.web.controller.impl;
 
-import com.shoppingsuite.persistence.dao.DealRepo;
-import com.shoppingsuite.persistence.model.Deal;
-import com.shoppingsuite.service.DealService;
-import com.shoppingsuite.web.controller.IAdminDealController;
-import com.shoppingsuite.web.dto.DealDto;
+import com.shoppingsuite.persistence.dao.OrderRepo;
+import com.shoppingsuite.persistence.model.Order;
+import com.shoppingsuite.service.OrderService;
+import com.shoppingsuite.web.controller.IAdminOrderController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@Controller
 @RequestMapping(value = {"/admin/deals/*", "/admin/deals"})
-public class AdminDealController implements IAdminDealController {
+public class AdminOrderController implements IAdminOrderController {
     @Autowired
-    private DealRepo dealRepo;
+    private OrderRepo orderRepo;
 
-    private DealService dealService;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("")
     @Override
-    public String showDeals(Model model) {
-        return findPaginated(1, "endDate", "asc",  model);
+    public String showOrders(Model model) {
+        return findPaginated(1, "orderDate", "desc",  model);
     }
 
     @Override
-    public String createDeal(DealDto dealDto, BindingResult bindingResult) {
+    public String updateOrder(Order order) {
         return null;
     }
 
     @Override
-    public String updateDeal(Deal deal) {
-        return null;
-    }
-
-    @Override
-    public String deleteDeal(Long dealId) {
+    public String deleteOrder(Long dealId) {
         return null;
     }
 
@@ -48,8 +40,8 @@ public class AdminDealController implements IAdminDealController {
     public String findPaginated(int pageNo, String sortField, String sortDir, Model model) {
         int pageSize = 10;
 
-        Page<Deal> page = dealService.getAll(pageNo, pageSize, sortField, sortDir);
-        List<Deal> deals = page.getContent();
+        Page<Order> page = orderService.getAll(pageNo, pageSize, sortField, sortDir);
+        List<Order> orders = page.getContent();
 
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("currentPage", pageNo);
@@ -60,7 +52,7 @@ public class AdminDealController implements IAdminDealController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
-        model.addAttribute("deals", deals);
-        return "/admin/deals";
+        model.addAttribute("orders", orders);
+        return "/admin/orders";
     }
 }
