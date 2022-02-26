@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = {"/admin/prodCategories/*", "/admin/prodCategories"})
@@ -50,12 +51,22 @@ public class AdminProdCategoryController implements IAdminProdCategoryController
             return "/admin/createProdCat";
         }
 
-        ProductCategory productCategory = new ProductCategory(prodCategoryDto);
-
-
         productCategoryRepo.save(new ProductCategory(prodCategoryDto));
 
         return "redirect:/admin/prodCategories?add_success";
+    }
+
+    @GetMapping("/edit/{prodCatId}")
+    @Override
+    public String showEditProdCategory(@PathVariable("prodCatId") Long prodCategoryId, Model model) {
+        Optional<ProductCategory> productCategory = productCategoryService.getById(prodCategoryId);
+
+        if (productCategory.isPresent()){
+            ProdCategoryDto prodCategoryDto = new ProdCategoryDto(productCategory.get());
+            model.addAttribute("prodCategoryDto",  prodCategoryDto);
+            return "/admin/createProdCat";
+        }
+        return "redirect:/admin/prodCategories?not_found";
     }
 
     @Override
@@ -63,9 +74,13 @@ public class AdminProdCategoryController implements IAdminProdCategoryController
         return null;
     }
 
+    @GetMapping("/delete/{prodCatId}")
     @Override
-    public String deleteProdCategory(Long prodCategoryId) {
-        return null;
+    public String deleteProdCategory(@PathVariable("prodCatId") Long prodCategoryId) {
+        if (productCategoryService.deleteById(prodCategoryId)){
+            return "redirect:/admin/prodCategories?delete_success";
+        }
+        return "redirect:/admin/prodCategories?delete_error";
     }
 
     @Override
