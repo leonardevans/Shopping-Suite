@@ -18,7 +18,7 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
                     <li class="breadcrumb-item"><a th:href="@{/admin/prodCategories}">Product Categories</a></li>
-                    <li class="breadcrumb-item active">Create Product Category</li>
+                    <li class="breadcrumb-item active">[[${prodCategoryDto.getId() == null ? 'Create' : 'Edit'}]] Product Category</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -36,11 +36,13 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Create Product Category</h3>
+                        <h3 class="card-title">[[${prodCategoryDto.getId() == null ? 'Create' : 'Edit'}]] Product Category</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="createProdCatForm" th:object="${prodCategoryDto}" method="post" th:action="@{/admin/prodCategories/add}">
+                    <form id="createProdCatForm" th:object="${prodCategoryDto}" method="post" th:action="@{${prodCategoryDto.getId() == null ? '/admin/prodCategories/add' : '/admin/prodCategories/update'}}">
+                        <input type="hidden" name="id" class="form-control" id="prodCatId" th:field="*{id}">
+
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="prodCatName">Category Name</label>
@@ -50,7 +52,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit" class="btn btn-primary">[[${prodCategoryDto.getId() == null ? 'Create' : 'Update'}]]</button>
                         </div>
                     </form>
                 </div>

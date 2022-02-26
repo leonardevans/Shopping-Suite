@@ -26,6 +26,7 @@
         <div class="row">
             <div class=" text-danger" th:if="${param.not_found}">Product category not found</div>
             <div class=" text-success" th:if="${param.add_success}">Product category added successfully</div>
+            <div class=" text-success" th:if="${param.update_success}">Product category updated successfully</div>
             <div class=" text-success" th:if="${param.delete_success}">Product category deleted successfully</div>
             <div class=" text-danger" th:if="${param.delete_error}">Failed to delete product category</div>
         </div>

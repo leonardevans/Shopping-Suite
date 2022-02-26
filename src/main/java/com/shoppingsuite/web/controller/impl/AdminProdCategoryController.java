@@ -69,9 +69,31 @@ public class AdminProdCategoryController implements IAdminProdCategoryController
         return "redirect:/admin/prodCategories?not_found";
     }
 
+    @PostMapping("/update")
     @Override
-    public String updateProdCategory(ProductCategory productCategory) {
-        return null;
+    public String updateProdCategory(@Valid @ModelAttribute("prodCategoryDto") ProdCategoryDto prodCategoryDto, BindingResult bindingResult) {
+        Optional<ProductCategory> productCategory = productCategoryRepo.findByName(prodCategoryDto.getName());
+
+        //check if category with this name exists and is not of the same id
+        if (productCategory.isPresent()){
+            if (productCategory.get().getId() == prodCategoryDto.getId()){
+                return "redirect:/admin/prodCategories?update_success";
+            }else{
+                bindingResult.addError(new FieldError("prodCategoryDto","name", "Product category name exist"));
+            }
+        }
+
+        if (bindingResult.hasErrors()){
+            return "/admin/createProdCat";
+        }
+
+        ProductCategory productCategoryToSave = productCategoryRepo.findById(prodCategoryDto.getId()).get();
+
+        productCategoryToSave.setName(prodCategoryDto.getName());
+
+        productCategoryRepo.save(productCategoryToSave);
+
+        return "redirect:/admin/prodCategories?update_success";
     }
 
     @GetMapping("/delete/{prodCatId}")
