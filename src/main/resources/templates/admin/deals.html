@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/admin_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Product Categories</title>
+    <title>Deals</title>
 </head>
 <body>
 
@@ -12,12 +12,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Product Categories</h1>
+                <h1 class="m-0">Deals</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-                    <li class="breadcrumb-item active">Product Categories</li>
+                    <li class="breadcrumb-item active">Deals</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -32,10 +32,10 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Product Categories</h3>
+            <h3 class="card-title">Deals</h3>
 
             <div class="card-tools">
-                <a class="btn btn-success btn-sm" th:href="@{/admin/prodCategories/add}">
+                <a class="btn btn-success btn-sm" th:href="@{/admin/deals/add}">
                     <i class="fas fa-folder">
                     </i>
                     Add
@@ -50,24 +50,48 @@
                         #
                     </th>
                     <th>
-                        Name
+                        Product Name
                     </th>
                     <th>
-                        actions
+                        Price
+                    </th>
+                    <th>
+                        Deal Price
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                    <th>
+                        Actions
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="prodCat, prodCatCount : ${productCategories}">
-                    <td>[[${__${prodCatCount.index}__ + 1}]]</td>
-                    <td>[[${prodCat.name}]]</td>
+                <tr th:each="deal, dealsCount : ${deals}">
+                    <td>[[${__${dealsCount.index}__ + 1}]]</td>
+                    <td>[[${deal.product.name}]]</td>
                     <td>
-                        <a class="btn btn-info btn-sm" th:href="@{/admin/prodCategories/edit/{prodCatId} (prodCatId=${prodCat.id})}">
+                        [[${deal.product.price}]]
+                    </td>
+                    <td>
+                        [[${deal.dealPrice}]]
+                    </td>
+                    <td>
+                        [[${deal.startDate}]]
+                    </td>
+                    <td>
+                        [[${deal.endDate}]]
+                    </td>
+                    <td>
+                        <a class="btn btn-info btn-sm" th:href="@{/admin/deals/edit/{dealId} (dealId=${deal.id})}">
                             <i class="fas fa-pencil-alt">
                             </i>
                             Edit
                         </a>
-                        <a class="btn btn-danger btn-sm" th:href="@{/admin/prodCategories/delete/{prodCatId} (prodCatId=${prodCat.id})}">
+                        <a class="btn btn-danger btn-sm" th:href="@{/admin/deals/delete/{dealId} (dealId=${deal.id})}">
                             <i class="fas fa-trash">
                             </i>
                             Delete
@@ -81,9 +105,10 @@
             <div class="row mt-5">
                 <div class="col-sm-12 col-md-5" >
                     <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:if="${totalItems > 0}">Showing [[
-                        ${pageSize} * (${currentPage} - 1) +1 ]] to [[ ${pageSize} * (${currentPage} - 1) + ${productCategories.size()} ]] of
+                        ${pageSize} * (${currentPage} - 1) +1 ]] to [[ ${pageSize} * (${currentPage} - 1) + ${deals.size()} ]] of
                         [[${totalItems}]] entries
                     </div>
+
                     <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:unless="${totalItems > 0}">Showing 0 of
                         0 entries
                     </div>
@@ -94,7 +119,7 @@
                             <li class="paginate_button page-item previous" id="example2_previous">
 
                                 <a th:if="${currentPage > 1}"
-                                   th:href="@{'/admin/prodCategories/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   th:href="@{'/admin/deals/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
                                    aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
                                 <span class="page-link disabled" th:unless="${currentPage > 1}">Previous <span
                                         class="sr-only">(current)</span> </span>
@@ -102,7 +127,7 @@
                             <li th:each="i: ${#numbers.sequence(1, totalPages)}"
                                 th:class="${currentPage != i ? 'paginate_button page-item' : 'paginate_button page-item active'}">
                                 <a th:if="${currentPage != i}"
-                                   th:href="@{'/admin/prodCategories/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   th:href="@{'/admin/deals/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
                                    aria-controls="example2" data-dt-idx="2"
                                    tabindex="0" class="page-link">[[${i}]]</a>
                                 <span class="page-link"  th:if="${currentPage == i}">[[${i}]] <span class="sr-only">(current)</span> </span>
@@ -110,14 +135,14 @@
 
                             <li class="paginate_button page-item next" id="example2_next">
                                 <a th:if="${currentPage < totalPages}"
-                                   th:href="@{'/admin/prodCategories/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   th:href="@{'/admin/deals/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
                                    aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
                                 <span class="page-link disabled" th:unless="${currentPage < totalPages}">Next <span
                                         class="sr-only">(current)</span> </span>
                             </li>
                             <li class="paginate_button page-item next" >
                                 <a th:if="${currentPage < totalPages}"
-                                   th:href="@{'/admin/prodCategories/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   th:href="@{'/admin/deals/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
                                    aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Last</a>
                                 <span class="page-link disabled" th:unless="${currentPage < totalPages}">Last <span
                                         class="sr-only">(current)</span> </span>

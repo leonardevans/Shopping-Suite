@@ -21,6 +21,7 @@ public class AdminDealController implements IAdminDealController {
     @Autowired
     private DealRepo dealRepo;
 
+    @Autowired
     private DealService dealService;
 
     @GetMapping("")
