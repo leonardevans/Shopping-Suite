@@ -38,18 +38,20 @@ public class AdminProdCategoryController implements IAdminProdCategoryController
         return "/admin/createProdCat";
     }
 
+    @PostMapping("/add")
     @Override
     public String createProdCategory(@Valid @ModelAttribute("prodCategoryDto") ProdCategoryDto prodCategoryDto, BindingResult bindingResult) {
-        ProductCategory productCategory = new ProductCategory(prodCategoryDto);
-
         //check if category with this name exists
         if (productCategoryRepo.existsByName(prodCategoryDto.getName())){
             bindingResult.addError(new FieldError("prodCategoryDto","name", "Product category name exist"));
         }
 
         if (bindingResult.hasErrors()){
-            return "/admin/prodCategories/createProdCat";
+            return "/admin/createProdCat";
         }
+
+        ProductCategory productCategory = new ProductCategory(prodCategoryDto);
+
 
         productCategoryRepo.save(new ProductCategory(prodCategoryDto));
 

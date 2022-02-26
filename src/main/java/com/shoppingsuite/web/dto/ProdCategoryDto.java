@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +19,7 @@ public class ProdCategoryDto {
 
     @Getter
     @Setter
-    @NotNull(message = "Product Category name is required")
+    @NotEmpty(message = "Product Category name is required")
+    @Size(min = 3, message = "Please enter at least 3 characters")
     private String name;
 }
