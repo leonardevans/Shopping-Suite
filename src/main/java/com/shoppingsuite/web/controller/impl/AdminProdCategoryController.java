@@ -31,6 +31,13 @@ public class AdminProdCategoryController implements IAdminProdCategoryController
         return findPaginated(1, "name", "asc",  model);
     }
 
+    @GetMapping("/add")
+    @Override
+    public String showCreateProdCat(Model model) {
+        model.addAttribute("prodCategoryDto",  new ProdCategoryDto());
+        return "/admin/createProdCat";
+    }
+
     @Override
     public String createProdCategory(@Valid @ModelAttribute("prodCategoryDto") ProdCategoryDto prodCategoryDto, BindingResult bindingResult) {
         ProductCategory productCategory = new ProductCategory(prodCategoryDto);

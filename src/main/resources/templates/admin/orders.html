@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/admin_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Orders</title>
+</head>
+<body>
+
+<!-- Content Header (Page header) -->
+<div class="content-header" layout:fragment="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Orders</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+                    <li class="breadcrumb-item active">Orders</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+
+<!-- Main content -->
+<section class="content" layout:fragment="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Orders</h3>
+
+            <div class="card-tools">
+                <a class="btn btn-success btn-sm" th:href="@{/admin/orders/add}">
+                    <i class="fas fa-folder">
+                    </i>
+                    Add
+                </a>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Order Date
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order, ordersCount : ${orders}">
+                    <td>[[${__${ordersCount.index}__ + 1}]]</td>
+                    <td>[[${order.cart.user.firstName}]]</td>
+                    <td>
+                        [[${order.cart.user.email}]]
+                    </td>
+                    <td>
+                        [[${order.orderStatus}]]
+                    </td>
+                    <td>
+                        [[${order.orderDate}]]
+                    </td>
+                    <td>
+                        <a class="btn btn-info btn-sm" th:href="@{/admin/orders/edit/{orderId} (orderId=${order.id})}">
+                            <i class="fas fa-pencil-alt">
+                            </i>
+                            Edit
+                        </a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/admin/orders/delete/{orderId} (orderId=${order.id})}">
+                            <i class="fas fa-trash">
+                            </i>
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <div class="row mt-5">
+                <div class="col-sm-12 col-md-5" >
+                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:if="${totalItems > 0}">Showing [[
+                        ${pageSize} * (${currentPage} - 1) +1 ]] to [[ ${pageSize} * (${currentPage} - 1) + ${orders.size()} ]] of
+                        [[${totalItems}]] entries
+                    </div>
+
+                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite" th:unless="${totalItems > 0}">Showing 0 of
+                        0 entries
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-7" th:if="${totalPages > 1}">
+                    <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button page-item previous" id="example2_previous">
+
+                                <a th:if="${currentPage > 1}"
+                                   th:href="@{'/admin/orders/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                <span class="page-link disabled" th:unless="${currentPage > 1}">Previous <span
+                                        class="sr-only">(current)</span> </span>
+                            </li>
+                            <li th:each="i: ${#numbers.sequence(1, totalPages)}"
+                                th:class="${currentPage != i ? 'paginate_button page-item' : 'paginate_button page-item active'}">
+                                <a th:if="${currentPage != i}"
+                                   th:href="@{'/admin/orders/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   aria-controls="example2" data-dt-idx="2"
+                                   tabindex="0" class="page-link">[[${i}]]</a>
+                                <span class="page-link"  th:if="${currentPage == i}">[[${i}]] <span class="sr-only">(current)</span> </span>
+                            </li>
+
+                            <li class="paginate_button page-item next" id="example2_next">
+                                <a th:if="${currentPage < totalPages}"
+                                   th:href="@{'/admin/orders/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                                <span class="page-link disabled" th:unless="${currentPage < totalPages}">Next <span
+                                        class="sr-only">(current)</span> </span>
+                            </li>
+                            <li class="paginate_button page-item next" >
+                                <a th:if="${currentPage < totalPages}"
+                                   th:href="@{'/admin/orders/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Last</a>
+                                <span class="page-link disabled" th:unless="${currentPage < totalPages}">Last <span
+                                        class="sr-only">(current)</span> </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+
+    <!-- /.content -->
+</section>
+
+</body>
+</html>
