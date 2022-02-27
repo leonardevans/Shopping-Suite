@@ -21,6 +21,7 @@ public class Product {
     private String name;
     private double price;
     private double stock;
+    private String imageUrl;
     private boolean published;
 
     public Product(ProductDto productDto) {
@@ -28,6 +29,7 @@ public class Product {
         this.name = productDto.getName();
         this.price = productDto.getPrice();
         this.stock = productDto.getStock();
+        this.imageUrl = productDto.getImageUrl();
         this.published = productDto.isPublished();
     }
 
