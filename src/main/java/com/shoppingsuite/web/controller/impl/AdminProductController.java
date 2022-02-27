@@ -1,7 +1,9 @@
 package com.shoppingsuite.web.controller.impl;
 
+import com.shoppingsuite.persistence.dao.ProductCategoryRepo;
 import com.shoppingsuite.persistence.dao.ProductRepo;
 import com.shoppingsuite.persistence.model.Product;
+import com.shoppingsuite.persistence.model.ProductCategory;
 import com.shoppingsuite.service.FileUploadService;
 import com.shoppingsuite.service.ProductService;
 import com.shoppingsuite.web.controller.IAdminProductController;
@@ -14,12 +16,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = {"/admin/products/*", "/admin/products"})
@@ -33,6 +36,9 @@ public class AdminProductController implements IAdminProductController {
     @Autowired
     FileUploadService fileUploadService;
 
+    @Autowired
+    ProductCategoryRepo productCategoryRepo;
+
     @Override
     @GetMapping("")
     public String showProducts(Model model) {
@@ -42,18 +48,21 @@ public class AdminProductController implements IAdminProductController {
     @GetMapping("/add")
     @Override
     public String showCreateProduct(Model model) {
+        model.addAttribute("categories", productCategoryRepo.findAll());
         model.addAttribute("productDto",  new ProductDto());
-        return "/admin/createProdCat";
+        return "/admin/createProduct";
     }
 
+    @PostMapping("/add")
     @Override
-    public String createProduct(@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult bindingResult) throws IOException {
+    public String createProduct(@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult bindingResult, Model model) throws IOException {
+        model.addAttribute("categories", productCategoryRepo.findAll());
         if (  productDto.getImage().isEmpty() && productDto.getImage() != null){
             bindingResult.addError(new FieldError("productDto","image", "Product image is required"));
         }
 
         if (bindingResult.hasErrors()){
-            return "admin/createProdCat";
+            return "/admin/createProduct";
         }
 
         String filename =  fileUploadService.uploadToLocal(productDto.getImage(),"uploads/images/product/");
@@ -64,7 +73,16 @@ public class AdminProductController implements IAdminProductController {
         //set image url
         productDto.setImageUrl("/" +filename);
 
-        productRepo.save(new Product(productDto));
+        Product product = new Product(productDto);
+
+        //get product category
+        Optional<ProductCategory> productCategory = productCategoryRepo.findById(productDto.getProductCategoryId());
+
+        //set the product category
+        product.setProductCategory(productCategory.get());
+
+        //save the product
+        productRepo.save(product);
 
         return "redirect:/admin/products?add_success";
     }

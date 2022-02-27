@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/admin_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Products</title>
+</head>
+<body>
+
+<!-- Content Header (Page header) -->
+<div class="content-header" layout:fragment="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Products</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/admin/products}">Products</a></li>
+                    <li class="breadcrumb-item active">[[${productDto.getId() == null ? 'Create' : 'Edit'}]] Product
+                    </li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content" layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- jquery validation -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">[[${productDto.getId() == null ? 'Create' : 'Edit'}]] Product</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form id="createProdCatForm" enctype="multipart/form-data" th:object="${productDto}" method="post"
+                          th:action="@{${productDto.getId() == null ? '/admin/products/add' : '/admin/products/update'}}">
+                        <div class="card-body">
+                        <input type="hidden" name="id" class="form-control" id="prodCatId" th:field="*{id}">
+
+                        <div class="form-group">
+                            <label for="prodName">Name</label>
+                            <input type="text" name="name" class="form-control" id="prodName" placeholder="Enter Name"
+                                   th:field="*{name}">
+                            <small id="prodCatName-error" class="form-text text-danger"
+                                   th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodCat">Product Category</label>
+                            <select class="custom-select rounded-0" id="prodCat" th:field="*{productCategoryId}">
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            </select>
+                            <small id="prodCat-error" class="form-text text-danger"
+                                   th:if="${#fields.hasErrors('productCategoryId')}" th:errors="*{productCategoryId}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodPrice">Price</label>
+                            <input type="number" name="name" class="form-control" id="prodPrice"
+                                   placeholder="Enter Price" th:field="*{price}">
+                            <small id="prodPrice-error" class="form-text text-danger"
+                                   th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodStock">Stock</label>
+                            <input type="number" name="name" class="form-control" id="prodStock"
+                                   placeholder="Enter Stock" th:field="*{stock}">
+                            <small id="prodStock-error" class="form-text text-danger"
+                                   th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></small>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="published" id="prodPublished" th:field="*{published}" class="custom-control-input">
+                                <label class="custom-control-label" for="prodPublished">Publish</label>
+                            </div>
+                            <small id="prodPublished-error" class="form-text text-danger"
+                                   th:if="${#fields.hasErrors('published')}" th:errors="*{published}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodImage">Stock</label>
+                            <input type="file" name="image" class="form-control" id="prodImage" th:field="*{image}">
+                            <small id="prodImage-error" class="form-text text-danger"
+                                   th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></small>
+                        </div>
+
+                        </div>
+
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">[[${productDto.getId() == null ? 'Create' :
+                                'Update'}]]
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!--/.col (left) -->
+            <!-- right column -->
+            <div class="col-md-6">
+
+            </div>
+            <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+
+</section>
+<!-- /.content -->
+
+</body>
+</html>

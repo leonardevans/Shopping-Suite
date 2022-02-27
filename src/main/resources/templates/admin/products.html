@@ -50,7 +50,13 @@
                         #
                     </th>
                     <th>
+                        Image
+                    </th>
+                    <th>
                         Name
+                    </th>
+                    <th>
+                        Category
                     </th>
                     <th>
                         Price
@@ -69,7 +75,13 @@
                 <tbody>
                 <tr th:each="product, prodCount : ${products}">
                     <td>[[${__${prodCount.index}__ + 1}]]</td>
+                    <td>
+                        <img th:src="@{${product.imageUrl}}" alt="Product Image" class="img-size-50">
+                    </td>
                     <td>[[${product.name}]]</td>
+                    <td>
+                        [[${product.productCategory.name}]]
+                    </td>
                     <td>
                         [[${product.price}]]
                     </td>
