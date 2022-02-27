@@ -16,7 +16,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
 

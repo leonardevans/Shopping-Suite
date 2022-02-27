@@ -1,20 +1,23 @@
 package com.shoppingsuite.persistence.model;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Deal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
     private double dealPrice;
 

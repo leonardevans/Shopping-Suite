@@ -39,16 +39,16 @@ public class Product {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Cart> carts = new HashSet();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private ProductCategory productCategory;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Rating> ratings = new HashSet();
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product")
     private Set<Deal> deals = new HashSet();
 
     @Override

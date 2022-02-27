@@ -25,7 +25,7 @@ public class ProductCategory {
         this.name = prodCategoryDto.getName();
     }
 
-    @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,})
     private Set<Product> products = new HashSet<>();
 
     @Override
