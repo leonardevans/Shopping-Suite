@@ -21,6 +21,17 @@
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
+
+        <!--        responses-->
+        <div class="row">
+            <div class=" text-danger" th:if="${param.not_found}">Product not found</div>
+            <div class=" text-success" th:if="${param.add_success}">Product added successfully</div>
+            <div class=" text-success" th:if="${param.update_success}">Product updated successfully</div>
+            <div class=" text-success" th:if="${param.delete_success}">Product deleted successfully</div>
+            <div class=" text-danger" th:if="${param.delete_error}">Failed to delete product</div>
+        </div>
+        <!--        responses-->
+
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->

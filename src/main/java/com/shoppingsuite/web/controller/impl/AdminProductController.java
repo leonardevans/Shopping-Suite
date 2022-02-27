@@ -14,10 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -92,9 +89,24 @@ public class AdminProductController implements IAdminProductController {
         return null;
     }
 
+    @GetMapping("/delete/{prodId}")
     @Override
-    public String deleteProduct(Long prodId) {
-        return null;
+    public String deleteProduct(@PathVariable("prodId") Long prodId) throws IOException {
+        //get the product
+        Optional<Product> product = productService.getById(prodId);
+        if (product.isEmpty()){
+            return "redirect:/admin/products?not_found";
+        }
+
+        //delete the image
+        fileUploadService.deleteLocalFile(product.get().getImageUrl());
+
+        //delete the product
+        if (productService.deleteById(prodId)){
+            return "redirect:/admin/products?delete_success";
+        }
+
+        return "redirect:/admin/products?delete_error";
     }
 
     @GetMapping("page/{pageNo}")

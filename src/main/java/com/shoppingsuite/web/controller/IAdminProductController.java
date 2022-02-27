@@ -19,6 +19,6 @@ public interface IAdminProductController {
     String createProduct(@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult bindingResult, Model model) throws IOException;
 
     public String updateProduct(Product product);
-    public String deleteProduct(Long prodId);
+    public String deleteProduct(Long prodId) throws IOException;
     public String findPaginated(int pageNo, String sortField, String sortDir, Model model);
 }
