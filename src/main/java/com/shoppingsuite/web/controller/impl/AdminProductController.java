@@ -53,12 +53,12 @@ public class AdminProductController implements IAdminProductController {
     @PostMapping("/add")
     @Override
     public String createProduct(@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult bindingResult, Model model) throws IOException {
-        model.addAttribute("categories", productCategoryRepo.findAll());
-        if (  productDto.getImage().isEmpty() && productDto.getImage() != null){
+        if (  productDto.getImage().isEmpty() || productDto.getImage() == null){
             bindingResult.addError(new FieldError("productDto","image", "Product image is required"));
         }
 
         if (bindingResult.hasErrors()){
+            model.addAttribute("categories", productCategoryRepo.findAll());
             return "/admin/createProduct";
         }
 
@@ -99,9 +99,45 @@ public class AdminProductController implements IAdminProductController {
         return "/admin/createProduct";
     }
 
+    @PostMapping("/update")
     @Override
-    public String updateProduct(Product product) {
-        return null;
+    public String updateProduct(@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult bindingResult, Model model) throws IOException {
+        //check that the required fields are set
+        if (bindingResult.hasErrors()){
+            model.addAttribute("categories", productCategoryRepo.findAll());
+            return "/admin/createProduct";
+        }
+
+
+        //check if new image has been uploaded
+        if (  !productDto.getImage().isEmpty() && productDto.getImage() != null ){
+            //upload the new image and set the url
+            String filename =  fileUploadService.uploadToLocal(productDto.getImage(),"uploads/images/product/");
+            if (filename.equals(null) || filename.isEmpty()){
+                return  "redirect:/admin/products?update_error";
+            }
+
+            //delete the current image
+            fileUploadService.deleteLocalFile(productDto.getImageUrl());
+            System.out.println("file deleted");
+
+            //set new image url
+            productDto.setImageUrl("/" +filename);
+        }
+
+        //Declare and set the product
+        Product product = new Product(productDto);
+
+        //get product category
+        Optional<ProductCategory> productCategory = productCategoryRepo.findById(productDto.getProductCategoryId());
+
+        //set the product category
+        product.setProductCategory(productCategory.get());
+
+        //save the product
+        productRepo.save(product);
+
+        return "redirect:/admin/products?update_success";
     }
 
     @GetMapping("/delete/{prodId}")

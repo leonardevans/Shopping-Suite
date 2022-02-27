@@ -44,6 +44,7 @@
                           th:action="@{${productDto.getId() == null ? '/admin/products/add' : '/admin/products/update'}}">
                         <div class="card-body">
                             <input type="hidden" name="id" class="form-control" id="prodCatId" th:field="*{id}">
+                            <input type="hidden" name="imageUrl" class="form-control" id="prodImageUrl" th:field="*{imageUrl}">
 
                             <div class="form-group">
                                 <label for="prodName">Name</label>
@@ -91,7 +92,7 @@
                                        th:if="${#fields.hasErrors('published')}" th:errors="*{published}"></small>
                             </div>
 
-                            <div class="form-group" th:unless="${productDto.imageUrl.equals(null)}">
+                            <div class="form-group" th:unless="${productDto.imageUrl == null}">
                                 <label for="prodStock">Current Image</label>
                                 <div>
                                     <img th:src="@{${productDto.imageUrl}}" alt="Product Image" style="max-width: 200px;">
@@ -99,8 +100,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="prodImage" th:if="${productDto.imageUrl.equals(null)}">Image</label>
-                                <label for="prodImage" th:unless="${productDto.imageUrl.equals(null)}">Change
+                                <label for="prodImage" th:if="${productDto.imageUrl == null}">Image</label>
+                                <label for="prodImage" th:unless="${productDto.imageUrl == null}">Change
                                     Image</label>
                                 <input type="file" name="image" class="form-control" id="prodImage" th:field="*{image}">
                                 <small id="prodImage-error" class="form-text text-danger"

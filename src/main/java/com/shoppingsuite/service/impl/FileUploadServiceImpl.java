@@ -29,6 +29,8 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     public boolean deleteLocalFile(String filePath) throws IOException {
+        //remove the char at 0 '/'
+        filePath = filePath.substring(1);
         try {
             FileUtils.forceDelete(FileUtils.getFile(filePath));
             return true;
