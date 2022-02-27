@@ -43,56 +43,69 @@
                     <form id="createProdCatForm" enctype="multipart/form-data" th:object="${productDto}" method="post"
                           th:action="@{${productDto.getId() == null ? '/admin/products/add' : '/admin/products/update'}}">
                         <div class="card-body">
-                        <input type="hidden" name="id" class="form-control" id="prodCatId" th:field="*{id}">
+                            <input type="hidden" name="id" class="form-control" id="prodCatId" th:field="*{id}">
 
-                        <div class="form-group">
-                            <label for="prodName">Name</label>
-                            <input type="text" name="name" class="form-control" id="prodName" placeholder="Enter Name"
-                                   th:field="*{name}">
-                            <small id="prodCatName-error" class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prodCat">Product Category</label>
-                            <select class="custom-select rounded-0" id="prodCat" th:field="*{productCategoryId}">
-                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-                            </select>
-                            <small id="prodCat-error" class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('productCategoryId')}" th:errors="*{productCategoryId}"></small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prodPrice">Price</label>
-                            <input type="number" name="name" class="form-control" id="prodPrice"
-                                   placeholder="Enter Price" th:field="*{price}">
-                            <small id="prodPrice-error" class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prodStock">Stock</label>
-                            <input type="number" name="name" class="form-control" id="prodStock"
-                                   placeholder="Enter Stock" th:field="*{stock}">
-                            <small id="prodStock-error" class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></small>
-                        </div>
-
-                        <div class="form-group mb-4">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="published" id="prodPublished" th:field="*{published}" class="custom-control-input">
-                                <label class="custom-control-label" for="prodPublished">Publish</label>
+                            <div class="form-group">
+                                <label for="prodName">Name</label>
+                                <input type="text" name="name" class="form-control" id="prodName"
+                                       placeholder="Enter Name"
+                                       th:field="*{name}">
+                                <small id="prodCatName-error" class="form-text text-danger"
+                                       th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
                             </div>
-                            <small id="prodPublished-error" class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('published')}" th:errors="*{published}"></small>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="prodImage">Stock</label>
-                            <input type="file" name="image" class="form-control" id="prodImage" th:field="*{image}">
-                            <small id="prodImage-error" class="form-text text-danger"
-                                   th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></small>
-                        </div>
+                            <div class="form-group">
+                                <label for="prodCat">Product Category</label>
+                                <select class="custom-select rounded-0" id="prodCat" th:field="*{productCategoryId}">
+                                    <option th:each="category : ${categories}" th:value="${category.id}"
+                                            th:text="${category.name}"></option>
+                                </select>
+                                <small id="prodCat-error" class="form-text text-danger"
+                                       th:if="${#fields.hasErrors('productCategoryId')}"
+                                       th:errors="*{productCategoryId}"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prodPrice">Price</label>
+                                <input type="number" name="name" class="form-control" id="prodPrice"
+                                       placeholder="Enter Price" th:field="*{price}">
+                                <small id="prodPrice-error" class="form-text text-danger"
+                                       th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prodStock">Stock</label>
+                                <input type="number" name="name" class="form-control" id="prodStock"
+                                       placeholder="Enter Stock" th:field="*{stock}">
+                                <small id="prodStock-error" class="form-text text-danger"
+                                       th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></small>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="published" id="prodPublished" th:field="*{published}"
+                                           class="custom-control-input">
+                                    <label class="custom-control-label" for="prodPublished">Publish</label>
+                                </div>
+                                <small id="prodPublished-error" class="form-text text-danger"
+                                       th:if="${#fields.hasErrors('published')}" th:errors="*{published}"></small>
+                            </div>
+
+                            <div class="form-group" th:unless="${productDto.imageUrl.equals(null)}">
+                                <label for="prodStock">Current Image</label>
+                                <div>
+                                    <img th:src="@{${productDto.imageUrl}}" alt="Product Image" style="max-width: 200px;">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prodImage" th:if="${productDto.imageUrl.equals(null)}">Image</label>
+                                <label for="prodImage" th:unless="${productDto.imageUrl.equals(null)}">Change
+                                    Image</label>
+                                <input type="file" name="image" class="form-control" id="prodImage" th:field="*{image}">
+                                <small id="prodImage-error" class="form-text text-danger"
+                                       th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></small>
+                            </div>
 
                         </div>
 

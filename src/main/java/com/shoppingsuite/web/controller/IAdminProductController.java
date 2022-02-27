@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -17,6 +18,9 @@ public interface IAdminProductController {
     String showCreateProduct(Model model);
 
     String createProduct(@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult bindingResult, Model model) throws IOException;
+
+    @GetMapping("/edit/prodId")
+    String showEditProduct(@PathVariable("prodId") Long prodId, Model model);
 
     public String updateProduct(Product product);
     public String deleteProduct(Long prodId) throws IOException;

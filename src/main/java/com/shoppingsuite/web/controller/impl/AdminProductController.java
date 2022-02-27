@@ -84,6 +84,21 @@ public class AdminProductController implements IAdminProductController {
         return "redirect:/admin/products?add_success";
     }
 
+    @GetMapping("/edit/{prodId}")
+    @Override
+    public String showEditProduct(@PathVariable("prodId") Long prodId, Model model) {
+        //get the product
+        Optional<Product> product = productService.getById(prodId);
+
+        if (product.isEmpty()){
+            return "redirect:/admin/products?not_found";
+        }
+
+        model.addAttribute("categories", productCategoryRepo.findAll());
+        model.addAttribute("productDto",  new ProductDto(product.get()));
+        return "/admin/createProduct";
+    }
+
     @Override
     public String updateProduct(Product product) {
         return null;
