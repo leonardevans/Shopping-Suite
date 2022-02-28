@@ -27,6 +27,8 @@ public class Deal {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
+    private boolean published;
+
     @Override
     public int hashCode() {
         final int prime = 31;
