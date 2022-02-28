@@ -80,6 +80,9 @@
                         Published
                     </th>
                     <th>
+                        Deals
+                    </th>
+                    <th>
                         actions
                     </th>
                 </tr>
@@ -104,6 +107,14 @@
                         [[${product.isPublished}]]
                     </td>
                     <td>
+                        <a class="btn btn-success btn-sm" th:href="@{/admin/deals/product/{prodId} (prodId=${product.id})}">Deals</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-success btn-sm" th:href="@{/admin/deals/add/{prodId} (prodId=${product.id})}">
+                            <i class="fas fa-folder">
+                            </i>
+                            New Deal
+                        </a>
                         <a class="btn btn-info btn-sm" th:href="@{/admin/products/edit/{prodId} (prodId=${product.id})}">
                             <i class="fas fa-pencil-alt">
                             </i>

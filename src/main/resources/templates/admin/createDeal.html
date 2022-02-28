@@ -36,7 +36,7 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">[[${productDto.getId() == null ? 'Create' : 'Edit'}]] Deal</h3>
+                        <h3 class="card-title">[[${dealDto.getId() == null ? 'Create' : 'Edit'}]] Deal</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -106,7 +106,7 @@
                             <div class="form-group">
                                 <label for="startDate">Start Date</label>
                                 <input type="datetime-local" name="startDate" class="form-control" id="startDate"
-                                       placeholder="Enter Stock" th:field="*{startDate}">
+                                       placeholder="Enter Start Date" th:field="*{startDate}">
                                 <small id="startDate-error" class="form-text text-danger"
                                        th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></small>
                             </div>
@@ -114,7 +114,7 @@
                             <div class="form-group">
                                 <label for="endDate">End Date</label>
                                 <input type="datetime-local" name="startDate" class="form-control" id="endDate"
-                                       placeholder="Enter Stock" th:field="*{endDate}">
+                                       placeholder="Enter End Date" th:field="*{endDate}">
                                 <small id="endDate-error" class="form-text text-danger"
                                        th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></small>
                             </div>
