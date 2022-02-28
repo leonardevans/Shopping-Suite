@@ -6,6 +6,7 @@ import com.shoppingsuite.persistence.model.Role;
 import com.shoppingsuite.persistence.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -17,6 +18,9 @@ public class ApplicationInitializer  implements CommandLineRunner {
 
     @Autowired
     private UserRepo userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -44,7 +48,8 @@ public class ApplicationInitializer  implements CommandLineRunner {
         String adminEmail = "bizbedu@gmail.com";
         // check if there's admin user, if not add user with role admin
         if (!userRepository.existsByEmail(adminEmail)){
-            User admin = new User("admin", "", adminEmail, "");
+            User admin = new User("admin", "", adminEmail, passwordEncoder.encode("adminPass22"));
+            admin.setEnabled(true);
 
             //            get user role and add this role to admin
             Optional<Role> userRole = roleRepository.findByName("ROLE_USER");

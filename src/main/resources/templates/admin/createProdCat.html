@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/admin_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Product Deal</title>
+    <title>Product Categories</title>
 </head>
 <body>
 
@@ -12,12 +12,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Product Deal</h1>
+                <h1 class="m-0">Product Categories</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
-                    <li class="breadcrumb-item"><a th:href="@{/admin/deals}">Deals</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/admin/prodCategories}">Product Categories</a></li>
                     <li class="breadcrumb-item active">[[${prodCategoryDto.getId() == null ? 'Create' : 'Edit'}]] Product Category</li>
                 </ol>
             </div><!-- /.col -->
