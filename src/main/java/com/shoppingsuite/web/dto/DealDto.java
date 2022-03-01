@@ -2,16 +2,19 @@ package com.shoppingsuite.web.dto;
 
 import com.shoppingsuite.persistence.model.Product;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class DealDto {
     private Long id;
 
@@ -23,11 +26,11 @@ public class DealDto {
     private Product product;
     private Long productId;
 
-    @NotNull(message = "Start date is required")
+    @NotEmpty(message = "Start date is required")
     @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private Date startDate;
 
-    @NotNull(message = "End date is required")
+    @NotEmpty(message = "End date is required")
     @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private Date endDate;
     private boolean published;

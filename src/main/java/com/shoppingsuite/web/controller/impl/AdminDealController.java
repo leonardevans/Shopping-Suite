@@ -12,9 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,9 +50,22 @@ public class AdminDealController implements IAdminDealController {
         return "/admin/createDeal";
     }
 
+    @PostMapping("/add")
     @Override
-    public String createDeal(DealDto dealDto, BindingResult bindingResult) {
-        return null;
+    public String createDeal(@ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult, Model model) {
+        Optional<Product> product = productService.getById(dealDto.getProductId());
+        dealDto.setProduct(product.get());
+
+        if (dealDto.getDealPrice() > dealDto.getProduct().getPrice()){
+            bindingResult.addError(new FieldError("dealDto","dealPrice", "Deal Price should be less than the product price"));
+        }
+
+        if (bindingResult.hasErrors()){
+            return "/admin/createDeal";
+        }
+
+        dealService.save(new Deal(dealDto));
+        return "redirect:/admin/deals/?add_success";
     }
 
     @Override

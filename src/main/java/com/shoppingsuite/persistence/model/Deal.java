@@ -1,5 +1,6 @@
 package com.shoppingsuite.persistence.model;
 
+import com.shoppingsuite.web.dto.DealDto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,15 @@ public class Deal {
     private Date endDate;
 
     private boolean published;
+
+    public Deal(DealDto dealDto) {
+        this.id = dealDto.getId();
+        this.product = dealDto.getProduct();
+        this.dealPrice = dealDto.getDealPrice();
+        this.startDate = dealDto.getStartDate();
+        this.endDate = dealDto.getEndDate();
+        this.published = dealDto.isPublished();
+    }
 
     @Override
     public int hashCode() {

@@ -40,7 +40,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="createProdCatForm" th:object="${dealDto}" method="post"
+                    <form id="createDealForm" th:object="${dealDto}" method="post"
                           th:action="@{${dealDto.getId() == null ? '/admin/deals/add' : '/admin/deals/update'}}">
                         <div class="card-body">
                             <input type="hidden" name="id" class="form-control" id="prodCatId" th:field="*{id}">
