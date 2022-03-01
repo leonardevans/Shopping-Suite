@@ -61,10 +61,13 @@
                         #
                     </th>
                     <th>
+                        Product Image
+                    </th>
+                    <th>
                         Product Name
                     </th>
                     <th>
-                        Price
+                        Product Price
                     </th>
                     <th>
                         Deal Price
@@ -83,6 +86,11 @@
                 <tbody>
                 <tr th:each="deal, dealsCount : ${deals}">
                     <td>[[${__${dealsCount.index}__ + 1}]]</td>
+                    <td>
+                        <a th:href="@{/admin/products/edit/{productId} (productId=${deal.product.id})}">
+                            <img th:src="@{${deal.product.imageUrl}}" alt="Product Image" class="img-size-50">
+                        </a>
+                    </td>
                     <td>[[${deal.product.name}]]</td>
                     <td>
                         [[${deal.product.price}]]

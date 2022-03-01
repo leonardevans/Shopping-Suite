@@ -53,7 +53,7 @@
                                     <thead>
                                     <tr>
                                         <th>
-                                            Image
+                                            Product Image
                                         </th>
                                         <th>
                                             Name
@@ -75,7 +75,9 @@
                                     <tbody>
                                     <tr>
                                         <td>
-                                            <img th:src="@{${dealDto.product.imageUrl}}" alt="Product Image" class="img-size-50">
+                                            <a th:href="@{/admin/products/edit/{productId} (productId=${dealDto.product.id})}">
+                                                <img th:src="@{${dealDto.product.imageUrl}}" alt="Product Image" class="img-size-50">
+                                            </a>
                                         </td>
                                         <td>[[${dealDto.product.name}]]</td>
                                         <td>
