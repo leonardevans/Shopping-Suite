@@ -18,6 +18,9 @@ public interface IAdminDealController {
     @PostMapping("/add")
     String createDeal(@ModelAttribute DealDto dealDto, BindingResult bindingResult, Model model);
 
+    @GetMapping("/edit/{dealId}")
+    String showEditDeal(@PathVariable Long dealId, Model model);
+
     public String updateDeal(Deal deal);
     public String deleteDeal(Long dealId);
     public String findPaginated(int pageNo, String sortField, String sortDir, Model model);

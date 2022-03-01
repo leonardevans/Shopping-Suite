@@ -68,6 +68,16 @@ public class AdminDealController implements IAdminDealController {
         return "redirect:/admin/deals/?add_success";
     }
 
+    @GetMapping("/edit/{dealId}")
+    @Override
+    public String showEditDeal(@PathVariable Long dealId, Model model){
+        Optional<Deal> deal = dealService.getById(dealId);
+
+        model.addAttribute("dealDto", new DealDto(deal.get()));
+
+        return "/admin/createDeal";
+    }
+
     @Override
     public String updateDeal(Deal deal) {
         return null;

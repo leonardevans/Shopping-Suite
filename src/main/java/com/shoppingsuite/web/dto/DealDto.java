@@ -1,5 +1,6 @@
 package com.shoppingsuite.web.dto;
 
+import com.shoppingsuite.persistence.model.Deal;
 import com.shoppingsuite.persistence.model.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,5 +39,15 @@ public class DealDto {
     public DealDto(Product product) {
         this.product = product;
         this.productId = product.getId();
+    }
+
+    public DealDto(Deal deal) {
+        this.id = deal.getId();
+        this.dealPrice = deal.getDealPrice();
+        this.product = deal.getProduct();
+        this.productId = deal.getProduct().getId();
+        this.startDate = deal.getStartDate();
+        this.endDate = deal.getEndDate();
+        this.published = deal.isPublished();
     }
 }
