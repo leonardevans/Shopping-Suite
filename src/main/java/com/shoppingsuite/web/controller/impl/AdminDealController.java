@@ -52,11 +52,11 @@ public class AdminDealController implements IAdminDealController {
 
     @PostMapping("/add")
     @Override
-    public String createDeal(@ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult, Model model) {
+    public String createDeal(@ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult) {
         Optional<Product> product = productService.getById(dealDto.getProductId());
         dealDto.setProduct(product.get());
 
-        if (dealDto.getDealPrice() > dealDto.getProduct().getPrice()){
+        if (dealDto.getDealPrice() >= dealDto.getProduct().getPrice()){
             bindingResult.addError(new FieldError("dealDto","dealPrice", "Deal Price should be less than the product price"));
         }
 
@@ -78,9 +78,22 @@ public class AdminDealController implements IAdminDealController {
         return "/admin/createDeal";
     }
 
+    @PostMapping("/update")
     @Override
-    public String updateDeal(Deal deal) {
-        return null;
+    public String updateDeal(@ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult) {
+        Optional<Product> product = productService.getById(dealDto.getProductId());
+        dealDto.setProduct(product.get());
+
+        if (dealDto.getDealPrice() >= dealDto.getProduct().getPrice()){
+            bindingResult.addError(new FieldError("dealDto","dealPrice", "Deal Price should be less than the product price"));
+        }
+
+        if (bindingResult.hasErrors()){
+            return "/admin/createDeal";
+        }
+
+        dealService.save(new Deal(dealDto));
+        return "redirect:/admin/deals/?update_success";
     }
 
     @Override

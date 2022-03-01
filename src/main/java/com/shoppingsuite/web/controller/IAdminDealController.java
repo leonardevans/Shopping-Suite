@@ -16,12 +16,14 @@ public interface IAdminDealController {
     String showCreateDeal(@PathVariable Long prodId, Model model);
 
     @PostMapping("/add")
-    String createDeal(@ModelAttribute DealDto dealDto, BindingResult bindingResult, Model model);
+    String createDeal(@ModelAttribute DealDto dealDto, BindingResult bindingResult);
 
     @GetMapping("/edit/{dealId}")
     String showEditDeal(@PathVariable Long dealId, Model model);
 
-    public String updateDeal(Deal deal);
+    @GetMapping("/update")
+    String updateDeal(@ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult);
+
     public String deleteDeal(Long dealId);
     public String findPaginated(int pageNo, String sortField, String sortDir, Model model);
 }
