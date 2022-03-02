@@ -97,9 +97,13 @@ public class AdminDealController implements IAdminDealController {
         return "redirect:/admin/deals/?update_success";
     }
 
+    @GetMapping("/delete/{dealId}")
     @Override
-    public String deleteDeal(Long dealId) {
-        return null;
+    public String deleteDeal(@PathVariable("dealId") Long dealId) {
+        if (dealService.deleteById(dealId)){
+            return "redirect:/admin/deals/?delete_success";
+        }
+        return "redirect:/admin/deals/?delete_error";
     }
 
     @Override
