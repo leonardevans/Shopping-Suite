@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class AdminDealController implements IAdminDealController {
 
     @PostMapping("/add")
     @Override
-    public String createDeal(@ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult) {
+    public String createDeal(@Valid @ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult) {
         Optional<Product> product = productService.getById(dealDto.getProductId());
         dealDto.setProduct(product.get());
 
@@ -80,7 +81,7 @@ public class AdminDealController implements IAdminDealController {
 
     @PostMapping("/update")
     @Override
-    public String updateDeal(@ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult) {
+    public String updateDeal(@Valid @ModelAttribute("dealDto") DealDto dealDto, BindingResult bindingResult) {
         Optional<Product> product = productService.getById(dealDto.getProductId());
         dealDto.setProduct(product.get());
 
