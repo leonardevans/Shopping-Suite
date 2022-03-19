@@ -64,29 +64,30 @@ public class MainController implements IMainController {
     }
 
     @Override
-    public String showProductPage() {
+    public String showProductPage(Model model, Long productId) {
         return null;
     }
 
     @Override
-    public String showDealsPage() {
+    public String showDealsPage(Model model) {
         return null;
     }
 
     @Override
-    public String showDealPage() {
+    public String showDealPage(Model model, Long dealId) {
         return null;
     }
 
     @Override
-    public String showCartPage() {
+    public String showCartPage(Model model) {
         return null;
     }
 
     @Override
-    public String showCheckoutPage() {
+    public String showCheckoutPage(Model model) {
         return null;
     }
+
 
     @GetMapping("page/{pageNo}")
     @Override
