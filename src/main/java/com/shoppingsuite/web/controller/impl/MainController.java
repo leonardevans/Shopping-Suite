@@ -15,9 +15,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController implements IMainController {
@@ -63,9 +65,18 @@ public class MainController implements IMainController {
         return findPaginated(1, "name", "asc",  model, "/index");
     }
 
+    @GetMapping("/product/{productId}")
     @Override
-    public String showProductPage(Model model, Long productId) {
-        return null;
+    public String showProductPage(Model model, @PathVariable Long productId) {
+        Optional<Product> product = productService.getById(productId);
+
+        if (product.isEmpty()){
+            return "/index";
+        }
+
+        model.addAttribute("product", product.get());
+        model.addAttribute("productCategories", productCategoryService.getAll());
+        return "/product";
     }
 
     @Override
