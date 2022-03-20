@@ -79,8 +79,10 @@ public class MainController implements IMainController {
         return "/product";
     }
 
+    @GetMapping("/deals")
     @Override
     public String showDealsPage(Model model) {
+        model.addAttribute("productCategories", productCategoryService.getAll());
         return null;
     }
 
