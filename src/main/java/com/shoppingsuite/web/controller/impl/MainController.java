@@ -2,6 +2,7 @@ package com.shoppingsuite.web.controller.impl;
 
 import com.shoppingsuite.persistence.model.Product;
 import com.shoppingsuite.security.AuthUtil;
+import com.shoppingsuite.service.DealService;
 import com.shoppingsuite.service.ProductCategoryService;
 import com.shoppingsuite.service.ProductService;
 import com.shoppingsuite.web.controller.IMainController;
@@ -35,6 +36,9 @@ public class MainController implements IMainController {
     @Autowired
     ProductCategoryService productCategoryService;
 
+    @Autowired
+    DealService dealService;
+
     @Override
     @GetMapping("/login")
     public String showLoginPage() {
@@ -62,6 +66,7 @@ public class MainController implements IMainController {
     @GetMapping("/")
     public String showIndexPage(Model model) {
         model.addAttribute("productCategories", productCategoryService.getAll());
+        model.addAttribute("deals", dealService.getAll(1, 10, "endDate", "asc").getContent());
         return findPaginated(1, "name", "asc",  model, "/index");
     }
 
