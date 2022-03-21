@@ -27,11 +27,11 @@ public class DealDto {
     private Product product;
     private Long productId;
 
-    @NotEmpty(message = "Start date is required")
+    @NotNull(message = "Start date is required")
     @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private Date startDate;
 
-    @NotEmpty(message = "End date is required")
+    @NotNull(message = "End date is required")
     @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private Date endDate;
     private boolean published;

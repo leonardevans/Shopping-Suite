@@ -1,5 +1,6 @@
 package com.shoppingsuite.web.controller.impl;
 
+import com.shoppingsuite.persistence.model.Deal;
 import com.shoppingsuite.persistence.model.Product;
 import com.shoppingsuite.security.AuthUtil;
 import com.shoppingsuite.service.DealService;
@@ -66,7 +67,8 @@ public class MainController implements IMainController {
     @GetMapping("/")
     public String showIndexPage(Model model) {
         model.addAttribute("productCategories", productCategoryService.getAll());
-        model.addAttribute("deals", dealService.getAll(1, 10, "endDate", "asc").getContent());
+        List<Deal> deals = dealService.getAll(1, 9, "endDate", "asc").getContent();
+        model.addAttribute("deals", deals);
         return findPaginated(1, "name", "asc",  model, "/index");
     }
 
