@@ -86,19 +86,20 @@ public class MainController implements IMainController {
         return "/product";
     }
 
-    @GetMapping("/product/{productCatId}")
+    @GetMapping("/products/{productCatId}")
     @Override
     public String showProductsPage(Model model, @PathVariable Long productCatId) {
         Page<Product> productPage = productService.getAllByCategoryId(productCatId, 1, 10);
 
         model.addAttribute("pageSize", 10);
+        model.addAttribute("category", productCategoryService.getById(productCatId));
         model.addAttribute("currentPage", 1);
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("totalItems", productPage.getTotalElements());
 
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("productCategories", productCategoryService.getAll());
-        return "/product";
+        return "/products";
     }
 
     @GetMapping("/deals")
@@ -124,7 +125,7 @@ public class MainController implements IMainController {
     }
 
 
-    @GetMapping("page/{pageNo}")
+    @GetMapping("/page/{pageNo}")
     @Override
     public String findPaginated(int pageNo, String sortField, String sortDir, Model model, String returnPage) {
         int pageSize = 10;

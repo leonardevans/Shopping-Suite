@@ -31,7 +31,7 @@
 
                 <div class="col-sm-9 padding-right">
                     <div class="features_items"><!--products-->
-                        <h2 class="title text-center">Products</h2>
+                        <h2 class="title text-center">Products <span th:if="${category != null} " >in [[${category.name}]] category</span></h2>
 
                         <div class="col-sm-4 product-wrapper" th:each="product : ${products}" th:attr="data-productId=${product.id}">
                             <div class="product-image-wrapper">
