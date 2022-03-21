@@ -1,6 +1,7 @@
 package com.shoppingsuite.web.controller;
 
 import com.shoppingsuite.persistence.model.Review;
+import com.shoppingsuite.persistence.model.User;
 import com.shoppingsuite.security.AuthUtil;
 import com.shoppingsuite.service.ProductService;
 import com.shoppingsuite.service.ReviewService;
@@ -27,7 +28,13 @@ public class RestController {
     public ResponseEntity makeReview(@RequestBody ReviewDto reviewDto){
         Review review = new Review();
         review.setProduct(productService.getById(reviewDto.getProductId()).get());
-        review.setUser(authUtil.getLoggedInUser());
+        User loggedInUser = authUtil.getLoggedInUser();
+
+        if (loggedInUser == null){
+            return ResponseEntity.status(403).body("Please sign in to make a review");
+        }
+
+        review.setUser(loggedInUser);
         return ResponseEntity.ok(reviewService.save(review));
     }
 }
