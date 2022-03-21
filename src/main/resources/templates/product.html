@@ -76,6 +76,7 @@
                                     <p><b>Write Your Review</b></p>
 
                                     <form action="#" id="review-form">
+                                        <input type="hidden" id="product-id" th:value="${product.id}">
                                         <textarea required name="" placeholder="Write your review"></textarea>
                                         <button type="submit" class="btn btn-default pull-right">
                                             Submit
@@ -98,7 +99,7 @@
     <script type="text/javascript">
         $("#review-form").submit(e => {
             e.preventDefault();
-            alert("making review");
+            alert("making review: ");
         })
     </script>
 </th:block>

@@ -15,6 +15,8 @@ public class Review {
     private Long id;
 
     private String detail;
+
+    @Column( nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp dateReviewed;
 
     @ManyToOne
