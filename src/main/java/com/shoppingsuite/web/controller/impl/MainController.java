@@ -92,7 +92,7 @@ public class MainController implements IMainController {
         Page<Product> productPage = productService.getAllByCategoryId(productCatId, 1, 10);
 
         model.addAttribute("pageSize", 10);
-        model.addAttribute("category", productCategoryService.getById(productCatId));
+        model.addAttribute("category", productCategoryService.getById(productCatId).get());
         model.addAttribute("currentPage", 1);
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("totalItems", productPage.getTotalElements());

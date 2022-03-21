@@ -64,24 +64,20 @@
 
                             <div class="tab-pane fade active in" id="reviews" >
                                 <div class="col-sm-12">
-                                    <div class="card">
-                                        <ul>
-                                            <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-                                            <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-                                            <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
-                                        </ul>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                    <div class="reviews">
+                                        <div class="card" th:each="review : ${product.reviews}">
+                                            <ul>
+                                                <li><a href=""><i class="fa fa-user"></i>[[${review.user.firstName}]]</a></li>
+                                                <li><a href=""><i class="fa fa-clock-o"></i>[[${review.user.dateReviewed}]]</a></li>
+                                            </ul>
+                                            <p>[[${review.user.detail}]]</p>
+                                        </div>
                                     </div>
                                     <p><b>Write Your Review</b></p>
 
-                                    <form action="#">
-										<span>
-											<input type="text" placeholder="Your Name"/>
-											<input type="email" placeholder="Email Address"/>
-										</span>
-                                        <textarea name="" ></textarea>
-                                        <b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
-                                        <button type="button" class="btn btn-default pull-right">
+                                    <form action="#" id="review-form">
+                                        <textarea required name="" placeholder="Write your review"></textarea>
+                                        <button type="submit" class="btn btn-default pull-right">
                                             Submit
                                         </button>
                                     </form>
@@ -98,5 +94,13 @@
     </section>
 </th:block>
 
+<th:block layout:fragment="javascript">
+    <script type="text/javascript">
+        $("#review-form").submit(e => {
+            e.preventDefault();
+            alert("making review");
+        })
+    </script>
+</th:block>
 </body>
 </html>
