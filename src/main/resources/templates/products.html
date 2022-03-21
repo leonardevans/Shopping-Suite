@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Product</title>
+</head>
+<body>
+
+<th:block class="container" layout:fragment="content">
+
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="left-sidebar">
+                        <h2>Category</h2>
+                        <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+
+                            <div class="panel panel-default" th:each="prodCat : ${productCategories}">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title"><a th:href="@{/products/{prodCatId} (prodCatId=${prodCat.id})}" >[[${prodCat.name}]]</a></h4>
+                                </div>
+                            </div>
+
+                        </div><!--/category-products-->
+
+                    </div>
+                </div>
+
+                <div class="col-sm-9 padding-right">
+                    <div class="features_items"><!--products-->
+                        <h2 class="title text-center">Products</h2>
+
+                        <div class="col-sm-4 product-wrapper" th:each="product : ${products}" th:attr="data-productId=${product.id}">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img th:src="@{${product.imageUrl}}" th:alt="${product.name}" />
+                                        <h2>$[[${product.price}]]</h2>
+                                        <p>[[${product.name}]]</p>
+                                        <a href="#" th:attr="data-productId=${product.id}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+                                    <div class="product-overlay">
+                                        <div class="overlay-content">
+                                            <h2>$[[${product.price}]]</h2>
+                                            <p>[[${product.name}]]</p>
+                                            <a href="#" th:attr="data-productId=${product.id}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="choose">
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li><a th:href="@{/product/{productId} (productId=${product.id})}"><i class="fa fa-eye"></i>View Product</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!--products-->
+
+                    <div class="recommended_items"><!--recommended_items-->
+
+                    </div><!--/recommended_items-->
+
+                </div>
+            </div>
+        </div>
+    </section>
+</th:block>
+
+</body>
+</html>

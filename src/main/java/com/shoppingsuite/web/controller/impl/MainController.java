@@ -86,6 +86,21 @@ public class MainController implements IMainController {
         return "/product";
     }
 
+    @GetMapping("/product/{productCatId}")
+    @Override
+    public String showProductsPage(Model model, @PathVariable Long productCatId) {
+        Page<Product> productPage = productService.getAllByCategoryId(productCatId, 1, 10);
+
+        model.addAttribute("pageSize", 10);
+        model.addAttribute("currentPage", 1);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("totalItems", productPage.getTotalElements());
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("productCategories", productCategoryService.getAll());
+        return "/product";
+    }
+
     @GetMapping("/deals")
     @Override
     public String showDealsPage(Model model) {

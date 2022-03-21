@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+<th:block class="container" layout:fragment="content">
+
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="left-sidebar">
+                        <h2>Category</h2>
+                        <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+
+                            <div class="panel panel-default" th:each="prodCat : ${productCategories}">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title"><a th:href="@{/products/{prodCatId} (prodCatId=${prodCat.id})}" >[[${prodCat.name}]]</a></h4>
+                                </div>
+                            </div>
+
+                        </div><!--/category-products-->
+
+                    </div>
+                </div>
+
+                <div class="col-sm-9 padding-right">
+                    <div class="product-details"><!--product-details-->
+                        <div class="col-sm-5">
+                            <div class="view-product">
+                                <img th:src="@{${product.imageUrl}}" alt="" />
+                            </div>
+
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="product-information"><!--/product-information-->
+                                <h2>[[${product.name}]]</h2>
+                                <span>
+									<span>US $[[${product.price}]]</span>
+									<label>Quantity:</label>
+									<input type="text" value="1" />
+									<button type="button" class="btn btn-fefault cart">
+										<i class="fa fa-shopping-cart"></i>
+										Add to cart
+									</button>
+								</span>
+                                <p><b>Availability:</b> In Stock</p>
+                            </div><!--/product-information-->
+                        </div>
+                    </div><!--/product-details-->
+
+                    <div class="category-tab shop-details-tab"><!--category-tab-->
+                        <div class="col-sm-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade active in" id="reviews" >
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <ul>
+                                            <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
+                                            <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
+                                            <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
+                                        </ul>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                    </div>
+                                    <p><b>Write Your Review</b></p>
+
+                                    <form action="#">
+										<span>
+											<input type="text" placeholder="Your Name"/>
+											<input type="email" placeholder="Email Address"/>
+										</span>
+                                        <textarea name="" ></textarea>
+                                        <b>Rating: </b> <img src="images/product-details/rating.png" alt="" />
+                                        <button type="button" class="btn btn-default pull-right">
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!--/category-tab-->
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+</th:block>
+
+</body>
+</html>
