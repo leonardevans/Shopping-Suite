@@ -25,6 +25,12 @@ public class Review {
     @ManyToOne
     private Product product;
 
+    public Review(String detail, User user, Product product) {
+        this.detail = detail;
+        this.user = user;
+        this.product = product;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
