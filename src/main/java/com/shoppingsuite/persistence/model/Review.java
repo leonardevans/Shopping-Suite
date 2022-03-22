@@ -2,6 +2,7 @@ package com.shoppingsuite.persistence.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -16,6 +17,7 @@ public class Review {
 
     private String detail;
 
+    @CreationTimestamp
     @Column( nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp dateReviewed;
 
