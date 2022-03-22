@@ -1,5 +1,6 @@
 package com.shoppingsuite.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shoppingsuite.web.dto.ProdCategoryDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class ProductCategory {
         this.name = prodCategoryDto.getName();
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "productCategory", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,})
     private Set<Product> products = new HashSet<>();
 

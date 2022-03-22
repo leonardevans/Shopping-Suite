@@ -68,16 +68,16 @@
                                         <div class="card" th:each="review : ${product.reviews}">
                                             <ul>
                                                 <li><a href=""><i class="fa fa-user"></i>[[${review.user.firstName}]]</a></li>
-                                                <li><a href=""><i class="fa fa-clock-o"></i>[[${review.user.dateReviewed}]]</a></li>
+                                                <li><a href=""><i class="fa fa-clock-o"></i>[[${review.dateReviewed}]]</a></li>
                                             </ul>
-                                            <p>[[${review.user.detail}]]</p>
+                                            <p>[[${review.detail}]]</p>
                                         </div>
                                     </div>
                                     <p><b>Write Your Review</b></p>
 
                                     <form action="#" id="review-form">
                                         <input type="hidden" id="product-id" th:value="${product.id}">
-                                        <textarea required name="" placeholder="Write your review"></textarea>
+                                        <textarea required name="" id="review-detail" placeholder="Write your review"></textarea>
                                         <button type="submit" class="btn btn-default pull-right">
                                             Submit
                                         </button>
@@ -99,8 +99,30 @@
     <script type="text/javascript">
         $("#review-form").submit(e => {
             e.preventDefault();
-            alert("making review: ");
-        })
+
+            $.ajax({
+                method: 'post',
+                url: "/api/make-review",
+                dataType: "application/json",
+                data: JSON.stringify({
+                    "productId": $("#product-id").val(),
+                    "detail": $("#review-detail").val()
+                }),
+                contentType: "application/json",
+                success:function(data, textStatus, xhr){
+                    alert("Data: " + data + "\nStatus: " + textStatus);
+                },
+                error:function(xhr, textStatus){
+                    console.log("status code: "+ xhr.status);
+                    console.log("res: "+ textStatus);
+                    if (xhr.status == 403){
+                        alert("please sign in to make a review");
+                    }else{
+                        alert("Bad thing happened! " + xhr.statusText);
+                    }
+                }
+            });
+        });
     </script>
 </th:block>
 </body>

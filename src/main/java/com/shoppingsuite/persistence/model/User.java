@@ -1,5 +1,6 @@
 package com.shoppingsuite.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shoppingsuite.web.dto.UserDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,16 +40,20 @@ public class User {
         this.roles = userDto.getRoles();
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Cart> carts = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Review> reviews = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Rating> ratings = new HashSet<>();
 

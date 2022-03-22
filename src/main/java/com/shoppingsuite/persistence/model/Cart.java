@@ -1,5 +1,6 @@
 package com.shoppingsuite.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shoppingsuite.persistence.enums.OrderStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "cart_products",
