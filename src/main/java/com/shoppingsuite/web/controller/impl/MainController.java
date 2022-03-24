@@ -19,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +42,8 @@ public class MainController implements IMainController {
 
     @Autowired
     DealService dealService;
+
+    @Autowired
 
     @Override
     @GetMapping("/login")
@@ -117,6 +121,22 @@ public class MainController implements IMainController {
         model.addAttribute("productCategories", productCategoryService.getAll());
         model.addAttribute("deal", dealService.getById(dealId).get());
         return "/deal";
+    }
+
+    @PostMapping("/search")
+    public String search(Model model, @RequestParam String search){
+        List<Product> products = productService.search(search);
+        model.addAttribute("products", products);
+
+        //get the deals for these products
+        List<Deal> deals = new ArrayList<>();
+        products.forEach(product -> {
+            deals.addAll(product.getDeals());
+        });
+
+        model.addAttribute("deals", deals);
+
+        return "/search";
     }
 
     @Override
