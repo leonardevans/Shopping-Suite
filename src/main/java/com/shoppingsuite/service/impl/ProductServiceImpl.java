@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,6 +56,11 @@ public class ProductServiceImpl implements ProductService {
                 Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return productRepo.findAll(pageable);
+    }
+
+    @Override
+    public List<Product> search(String search) {
+        return productRepo.findAllByNameContains(search);
     }
 
     @Override

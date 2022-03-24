@@ -3,6 +3,7 @@ package com.shoppingsuite.service;
 import com.shoppingsuite.persistence.model.Product;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,4 +15,5 @@ public interface ProductService {
     Page<Product> getAllByCategoryId(Long categoryId, int pageNo, int pageSize);
     Page<Product> search(String search, int pageNo, int pageSize);
     Page<Product> getAll(int pageNo, int pageSize, String sortField, String sortDir);
+    List<Product> search(String search);
 }

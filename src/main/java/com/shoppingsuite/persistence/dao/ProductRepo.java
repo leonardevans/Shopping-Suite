@@ -16,6 +16,7 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     Page<Product> findAllByProductCategoryId(Long productCategoryId, Pageable pageable);
     Page<Product> findAllByNameContainsOrProductCategoryContains(String search,String search1, Pageable pageable);
     Page<Product> findAll(Pageable pageable);
+    List<Product> findAllByNameContains(String search);
 
     @Query("SELECT COUNT (p) FROM Product p")
     Object getTotalProducts();
