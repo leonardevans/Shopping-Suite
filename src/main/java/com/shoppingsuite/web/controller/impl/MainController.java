@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,12 +107,16 @@ public class MainController implements IMainController {
     @Override
     public String showDealsPage(Model model) {
         model.addAttribute("productCategories", productCategoryService.getAll());
+        model.addAttribute("deals", dealService.getAllByEndDateBefore(1, 10, new Date()));
         return null;
     }
 
+    @GetMapping("/deal/{dealId}")
     @Override
-    public String showDealPage(Model model, Long dealId) {
-        return null;
+    public String showDealPage(Model model,@PathVariable Long dealId) {
+        model.addAttribute("productCategories", productCategoryService.getAll());
+        model.addAttribute("deal", dealService.getById(dealId).get());
+        return "/deal";
     }
 
     @Override
