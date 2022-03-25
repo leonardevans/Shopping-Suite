@@ -57,6 +57,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-4 product-wrapper" th:if="${products.size() == 0}">
+                            No products found
+                        </div>
 
                     </div><!--products-->
 
@@ -78,6 +81,9 @@
 
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-3" th:if="${deals.size() == 0}">
+                                    No deals found
                                 </div>
                             </div>
                         </div>
