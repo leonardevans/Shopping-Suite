@@ -67,7 +67,9 @@
         </div>
         <div class="col-sm-3">
           <div class="search_box pull-right">
-            <input type="text" placeholder="Search"/>
+            <form th:action="@{/search}" method="post">
+                <input type="text" name="search" required placeholder="Search"/>
+            </form>
           </div>
         </div>
       </div>

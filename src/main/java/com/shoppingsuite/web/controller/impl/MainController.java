@@ -128,6 +128,8 @@ public class MainController implements IMainController {
         List<Product> products = productService.search(search);
         model.addAttribute("products", products);
 
+        model.addAttribute("productCategories", productCategoryService.getAll());
+
         //get the deals for these products
         List<Deal> deals = new ArrayList<>();
         products.forEach(product -> {
@@ -135,8 +137,7 @@ public class MainController implements IMainController {
         });
 
         model.addAttribute("deals", deals);
-
-        return "/search";
+        return "/index";
     }
 
     @Override
