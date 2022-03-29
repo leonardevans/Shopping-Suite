@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
@@ -50,10 +51,10 @@ public class RestController {
     }
 
     @PostMapping(value = "/api/add-product-to-cart")
-    public ResponseEntity addProductToCart(@RequestBody AddToCartDto addToCartDto, HttpSession httpSession) throws Exception {
+    public ResponseEntity addProductToCart(@Valid @RequestBody AddToCartDto addToCartDto, HttpSession httpSession) throws Exception {
         User loggedInUser = authUtil.getLoggedInUser();
 
-        Cart userCart = null;
+        Cart userCart = new Cart();
 
         //get the cart saved in the database
         if (loggedInUser != null){
@@ -61,8 +62,6 @@ public class RestController {
             Optional<Cart> cart = cartService.getByUserAndOrdered(loggedInUser, false);
             if (cart.isPresent()){
                 userCart = cart.get();
-            }else {
-                userCart = new Cart();
             }
         }
 
@@ -92,16 +91,18 @@ public class RestController {
         //the product from db
         Product product = productService.getById(addToCartDto.getProductId()).orElseThrow(Exception::new);
 
-        CartProduct cartProduct = new CartProduct(userCart, product, addToCartDto.getQuantity(), product.getPrice());
-
-        userCart.getCartProducts().add(cartProduct);
+        if (!userCart.getCartProducts().contains(product)){
+            CartProduct cartProduct = new CartProduct(userCart, product, addToCartDto.getQuantity(), product.getPrice());
+            userCart.getCartProducts().add(cartProduct);
+        }
 
         if (loggedInUser != null){
             userCart.setUser(loggedInUser);
+
+            //save the cart
+            userCart = cartService.save(userCart);
         }
 
-        //save the cart
-        cartService.save(userCart);
 
         //set the cart to session variable
         httpSession.setAttribute("cart", userCart);
