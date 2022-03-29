@@ -1,8 +1,11 @@
 package com.shoppingsuite.web.controller.impl;
 
+import com.shoppingsuite.persistence.model.Cart;
 import com.shoppingsuite.persistence.model.Deal;
 import com.shoppingsuite.persistence.model.Product;
+import com.shoppingsuite.persistence.model.User;
 import com.shoppingsuite.security.AuthUtil;
+import com.shoppingsuite.service.CartService;
 import com.shoppingsuite.service.DealService;
 import com.shoppingsuite.service.ProductCategoryService;
 import com.shoppingsuite.service.ProductService;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +46,9 @@ public class MainController implements IMainController {
 
     @Autowired
     DealService dealService;
+
+    @Autowired
+    private CartService cartService;
 
     @Autowired
 
@@ -70,10 +77,11 @@ public class MainController implements IMainController {
 
     @Override
     @GetMapping("/")
-    public String showIndexPage(Model model) {
+    public String showIndexPage(Model model, HttpSession httpSession) {
         model.addAttribute("productCategories", productCategoryService.getAll());
         List<Deal> deals = dealService.getAll(1, 9, "endDate", "asc").getContent();
         model.addAttribute("deals", deals);
+        updateCart(httpSession);
         return findPaginated(1, "name", "asc",  model, "/index");
     }
 
@@ -170,5 +178,46 @@ public class MainController implements IMainController {
 
         model.addAttribute("products", products);
         return returnPage;
+    }
+
+    public void updateCart(HttpSession httpSession){
+        User loggedInUser = authUtil.getLoggedInUser();
+
+        Cart userCart = new Cart();
+
+        //get the cart saved in the database
+        if (loggedInUser != null){
+            //get the logged in user cart
+            Optional<Cart> cart = cartService.getByUserAndOrdered(loggedInUser, false);
+            if (cart.isPresent()){
+                userCart = cart.get();
+
+                //get the cart saved in session
+                Cart sessionCart = null;
+                try {
+                    sessionCart = (Cart) httpSession.getAttribute("cart");
+                }catch (Exception e){
+                    System.out.println("No cart saved in session");
+                    System.out.println(e.getMessage());
+                    e.printStackTrace();
+                }
+
+                //merge the carts
+                if (sessionCart != null){
+                    Cart finalUserCart = userCart;
+                    sessionCart.getCartProducts().forEach(cartProduct -> {
+                        //if userCart does not contain this session cartProduct we add it to the userCart
+                        if (!finalUserCart.getCartProducts().contains(cartProduct)){
+                            finalUserCart.getCartProducts().add(cartProduct);
+                        }
+                    });
+
+                    userCart = finalUserCart;
+
+                    //set the cart to session variable
+                    httpSession.setAttribute("cart", userCart);
+                }
+            }
+        }
     }
 }
