@@ -1,6 +1,7 @@
 package com.shoppingsuite.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.shoppingsuite.persistence.joins.CartProduct;
 import com.shoppingsuite.web.dto.ProductDto;
 import lombok.Data;
 import lombok.Getter;
@@ -37,9 +38,12 @@ public class Product {
         this.published = productDto.isPublished();
     }
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Cart> carts = new HashSet();
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<CartProduct> cartProducts = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductCategory productCategory;
