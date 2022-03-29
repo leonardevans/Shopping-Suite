@@ -28,11 +28,13 @@ public class CartProduct {
     private Product product;
 
     private int quantity;
+    private double price;
 
-    public CartProduct(Cart cart, Product product, int quantity) {
+    public CartProduct(Cart cart, Product product, int quantity, double price) {
         this.cart = cart;
         this.product = product;
         this.quantity = quantity;
+        this.price = price;
         this.id = new CartProductId(cart.getId(), product.getId());
     }
 

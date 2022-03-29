@@ -1,6 +1,8 @@
 package com.shoppingsuite.web.controller;
 
+import com.shoppingsuite.persistence.joins.CartProduct;
 import com.shoppingsuite.persistence.model.Cart;
+import com.shoppingsuite.persistence.model.Product;
 import com.shoppingsuite.persistence.model.Review;
 import com.shoppingsuite.persistence.model.User;
 import com.shoppingsuite.security.AuthUtil;
@@ -48,13 +50,14 @@ public class RestController {
     }
 
     @PostMapping(value = "/api/add-product-to-cart")
-    public ResponseEntity addProductToCart(@RequestBody AddToCartDto addToCartDto, HttpSession httpSession){
+    public ResponseEntity addProductToCart(@RequestBody AddToCartDto addToCartDto, HttpSession httpSession) throws Exception {
         User loggedInUser = authUtil.getLoggedInUser();
 
         Cart userCart = null;
 
+        //get the cart saved in the database
         if (loggedInUser != null){
-            //get the loggged in user cart
+            //get the logged in user cart
             Optional<Cart> cart = cartService.getByUserAndOrdered(loggedInUser, false);
             if (cart.isPresent()){
                 userCart = cart.get();
@@ -63,6 +66,46 @@ public class RestController {
             }
         }
 
-        return null;
+        //get the cart saved in session
+        Cart sessionCart = null;
+        try {
+            sessionCart = (Cart) httpSession.getAttribute("cart");
+        }catch (Exception e){
+            System.out.println("No cart saved in session");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        //merge the carts
+        if (sessionCart != null){
+            Cart finalUserCart = userCart;
+            sessionCart.getCartProducts().forEach(cartProduct -> {
+                //if userCart does not contain this session cartProduct we add it to the userCart
+                if (!finalUserCart.getCartProducts().contains(cartProduct)){
+                    finalUserCart.getCartProducts().add(cartProduct);
+                }
+            });
+
+            userCart = finalUserCart;
+        }
+
+        //the product from db
+        Product product = productService.getById(addToCartDto.getProductId()).orElseThrow(Exception::new);
+
+        CartProduct cartProduct = new CartProduct(userCart, product, addToCartDto.getQuantity(), product.getPrice());
+
+        userCart.getCartProducts().add(cartProduct);
+
+        if (loggedInUser != null){
+            userCart.setUser(loggedInUser);
+        }
+
+        //save the cart
+        cartService.save(userCart);
+
+        //set the cart to session variable
+        httpSession.setAttribute("cart", userCart);
+
+        return ResponseEntity.ok(true);
     }
 }
