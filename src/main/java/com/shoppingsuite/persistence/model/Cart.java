@@ -2,6 +2,7 @@ package com.shoppingsuite.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shoppingsuite.persistence.enums.OrderStatus;
+import com.shoppingsuite.persistence.joins.CartProduct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,14 +20,13 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "cart_products",
-            joinColumns = @JoinColumn(name = "cart_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id")
+
+    @OneToMany(
+            mappedBy = "cart",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private Set<Product> products = new HashSet<>();
+    private Set<CartProduct> cartProducts = new HashSet<>();
 
     @ManyToOne
     private User user;
@@ -68,7 +68,7 @@ public class Cart {
         final StringBuilder builder = new StringBuilder();
         builder.append("Cart [id=")
                 .append(id)
-                .append(", products=").append(products)
+                .append(", cartProducts=").append(cartProducts)
                 .append(", user=").append(user)
                 .append(", ordered=").append(ordered)
                 .append(", total=").append(total)
