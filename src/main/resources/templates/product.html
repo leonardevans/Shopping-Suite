@@ -43,8 +43,8 @@
                                 <span>
 									<span>US $[[${product.price}]]</span>
 									<label>Quantity:</label>
-									<input type="text" value="1" />
-									<button type="button" class="btn btn-fefault cart">
+									<input type="text" value="1" min="1" id="p-quantity"/>
+									<button type="button" class="btn btn-default cart" id="add-to-cart-btn" th:attr="data-productid=${product.id}">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
 									</button>
@@ -97,6 +97,7 @@
 
 <th:block layout:fragment="javascript">
     <script type="text/javascript">
+        //adding review
         $("#review-form").submit(e => {
             e.preventDefault();
 
@@ -129,6 +130,48 @@
                     }
                     else if (xhr.status == 200){
                         alert("Prooduct review added");
+                    }
+                    else{
+                        alert("Bad thing happened! " + xhr.statusText);
+                    }
+                }
+            });
+        });
+
+        //adding product to cart
+        $("#add-to-cart-btn").click(e => {
+            e.preventDefault();
+
+            let productId = $(e.target).data('productid');
+            console.log("e.target " + e.target);
+            console.log("pId: " + productId);
+
+            $.ajax({
+                method: 'post',
+                url: "/api/add-product-to-cart",
+                dataType: "application/json",
+                data: JSON.stringify({
+                    "productId": productId,
+                    "quantity": $("#p-quantity").val()
+                }),
+                contentType: "application/json",
+                success:function(data, textStatus, xhr){
+                    if (xhr.status == 403){
+                        alert("please sign in to make a review");
+                    }
+                    else if (xhr.status == 200){
+                        alert("Product added to cart");
+                    }
+                    else{
+                        alert("Bad thing happened! " + xhr.statusText);
+                    }
+                    console.log(data)
+                },
+                error:function(xhr, textStatus){
+                    console.log("status code: "+ xhr.status);
+                    console.log("res: "+ textStatus);
+                    if (xhr.status == 200){
+                        alert("Product added to cart");
                     }
                     else{
                         alert("Bad thing happened! " + xhr.statusText);
