@@ -9,19 +9,16 @@ import com.shoppingsuite.security.AuthUtil;
 import com.shoppingsuite.service.CartService;
 import com.shoppingsuite.service.ProductService;
 import com.shoppingsuite.service.ReviewService;
+import com.shoppingsuite.utils.CartUtil;
 import com.shoppingsuite.web.dto.AddToCartDto;
 import com.shoppingsuite.web.dto.ReviewDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -29,13 +26,15 @@ public class RestController {
     private ProductService productService;
     private AuthUtil authUtil;
     private CartService cartService;
+    private CartUtil cartUtil;
 
     @Autowired
-    public RestController(ReviewService reviewService, ProductService productService, AuthUtil authUtil, CartService cartService) {
+    public RestController(ReviewService reviewService, ProductService productService, AuthUtil authUtil, CartService cartService, CartUtil cartUtil) {
         this.reviewService = reviewService;
         this.productService = productService;
         this.authUtil = authUtil;
         this.cartService = cartService;
+        this.cartUtil = cartUtil;
     }
 
     @PostMapping(value = "/api/make-review")
@@ -54,39 +53,7 @@ public class RestController {
     public ResponseEntity addProductToCart(@Valid @RequestBody AddToCartDto addToCartDto, HttpSession httpSession) throws Exception {
         User loggedInUser = authUtil.getLoggedInUser();
 
-        Cart userCart = new Cart();
-
-        //get the cart saved in the database
-        if (loggedInUser != null){
-            //get the logged in user cart
-            Optional<Cart> cart = cartService.getByUserAndOrdered(loggedInUser, false);
-            if (cart.isPresent()){
-                userCart = cart.get();
-            }
-        }
-
-        //get the cart saved in session
-        Cart sessionCart = null;
-        try {
-            sessionCart = (Cart) httpSession.getAttribute("cart");
-        }catch (Exception e){
-            System.out.println("No cart saved in session");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        //merge the carts
-        if (sessionCart != null){
-            Cart finalUserCart = userCart;
-            sessionCart.getCartProducts().forEach(cartProduct -> {
-                //if userCart does not contain this session cartProduct we add it to the userCart
-                if (!finalUserCart.getCartProducts().contains(cartProduct)){
-                    finalUserCart.getCartProducts().add(cartProduct);
-                }
-            });
-
-            userCart = finalUserCart;
-        }
+        Cart userCart = cartUtil.updateCart(httpSession);
 
         //the product from db
         Product product = productService.getById(addToCartDto.getProductId()).orElseThrow(Exception::new);
