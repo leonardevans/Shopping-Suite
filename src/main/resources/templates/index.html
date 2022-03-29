@@ -74,6 +74,7 @@
                                         <div class="single-products">
                                             <div class="productinfo text-center">
                                                 <img th:src="@{${deal.product.imageUrl}}" alt="" />
+                                                <h5><s>$[[${deal.product.price}]]</s></h5>
                                                 <h2>$[[${deal.dealPrice}]]</h2>
                                                 <p>[[${deal.product.name}]]</p>
                                                 <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
