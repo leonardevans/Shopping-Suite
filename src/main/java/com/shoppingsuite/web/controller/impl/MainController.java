@@ -150,8 +150,11 @@ public class MainController implements IMainController {
     }
 
     @Override
-    public String showCartPage(Model model) {
-        return null;
+    @GetMapping("/cart")
+    public String showCartPage(Model model, HttpSession httpSession) {
+        Cart cart = cartUtil.updateCart(httpSession);
+        model.addAttribute("cart", cart);
+        return "/cart";
     }
 
     @Override

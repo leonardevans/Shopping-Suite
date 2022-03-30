@@ -16,7 +16,7 @@ public interface IMainController {
 
     public String showDealsPage(Model model);
     public String showDealPage(Model model, Long dealId);
-    public String showCartPage(Model model);
+    public String showCartPage(Model model, HttpSession httpSession);
     public String showCheckoutPage(Model model);
 
     @GetMapping("page/{pageNo}")

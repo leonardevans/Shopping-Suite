@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Cart</title>
+</head>
+<body>
+
+<th:block class="container" layout:fragment="content">
+  <section id="cart_items">
+    <div class="container">
+      <div class="breadcrumbs">
+        <ol class="breadcrumb">
+          <li><a th:href="@{/}">Home</a></li>
+          <li class="active">Shopping Cart</li>
+        </ol>
+      </div>
+      <div class="table-responsive cart_info">
+        <table class="table table-condensed">
+          <thead>
+          <tr class="cart_menu">
+            <td class="image">Item</td>
+            <td class="description"></td>
+            <td class="price">Price</td>
+            <td class="quantity">Quantity</td>
+            <td class="total">Total</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="cartProduct : ${cart.getCartProducts()}">
+            <td class="cart_product">
+              <a th:href="@{/product/{productId} (productId=${cartProduct.product.id})}"><img th:src="@{${cartProduct.product.imageUrl}}" alt="" style="max-width: 50px"></a>
+            </td>
+            <td class="cart_description">
+              <h4><a th:href="@{/product/{productId} (productId=${cartProduct.product.id})}">[[${cartProduct.product.name}]]</a></h4>
+            </td>
+            <td class="cart_price">
+              <p>$[[${cartProduct.price}]]</p>
+            </td>
+            <td class="cart_quantity">
+              <div class="cart_quantity_button">
+                <a class="cart_quantity_up" href=""> + </a>
+                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+                <a class="cart_quantity_down" href=""> - </a>
+              </div>
+            </td>
+            <td class="cart_total">
+              <p class="cart_total_price">$<span>[[${cartProduct.price * cartProduct.quantity}]]</span></p>
+            </td>
+            <td class="cart_delete">
+              <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+            </td>
+          </tr>
+
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section> <!--/#cart_items-->
+</th:block>
+
+<th:block layout:fragment="javascript">
+  <script type="text/javascript">
+    //adding product to cart
+    $(".add-product-to-cart-btn").click(e => {
+      e.preventDefault();
+
+      let productId = $(e.target).data('productid');
+
+
+      $.ajax({
+        method: 'post',
+        url: "/api/add-product-to-cart",
+        dataType: "application/json",
+        data: JSON.stringify({
+          "productId": productId,
+          "quantity": 1
+        }),
+        contentType: "application/json",
+        success: function (data, textStatus, xhr) {
+          if (xhr.status == 403) {
+            alert("please sign in to make a review");
+          } else if (xhr.status == 200) {
+            alert("Product added to cart");
+          } else {
+            alert("Bad thing happened! " + xhr.statusText);
+          }
+          console.log(data)
+        },
+        error: function (xhr, textStatus) {
+          console.log("status code: " + xhr.status);
+          console.log("res: " + textStatus);
+          if (xhr.status == 200) {
+            alert("Product added to cart");
+          } else {
+            alert("Bad thing happened! " + xhr.statusText);
+          }
+        }
+      });
+    });
+
+    //adding deal to cart
+    $(".add-deal-to-cart-btn").click(e => {
+      e.preventDefault();
+
+      let dealId = $(e.target).data('dealid');
+
+
+      $.ajax({
+        method: 'post',
+        url: "/api/add-deal-to-cart",
+        dataType: "application/json",
+        data: JSON.stringify({
+          "dealId": dealId,
+          "quantity": 1
+        }),
+        contentType: "application/json",
+        success: function (data, textStatus, xhr) {
+          if (xhr.status == 200) {
+            alert("Deal added to cart");
+          } else {
+            alert("Bad thing happened! " + xhr.statusText);
+          }
+          console.log(data)
+        },
+        error: function (xhr, textStatus) {
+          console.log("status code: " + xhr.status);
+          console.log("res: " + textStatus);
+          if (xhr.status == 200) {
+            alert("Deal added to cart");
+          } else {
+            alert("Bad thing happened! " + xhr.statusText);
+          }
+        }
+      });
+    });
+  </script>
+</th:block>
+
+</body>
+</html>

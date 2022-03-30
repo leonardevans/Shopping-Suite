@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -91,6 +92,8 @@ public class RestController {
         if (!userCart.getCartProducts().contains(deal.getProduct())){
             CartProduct cartProduct = new CartProduct(userCart, deal.getProduct(), addDealToCartDto.getQuantity(), deal.getDealPrice());
             userCart.getCartProducts().add(cartProduct);
+        }else{
+            userCart.getCartProducts().stream().filter(cartProduct -> cartProduct.getProduct().equals(deal.getProduct()) ).findFirst().get().setPrice(deal.getDealPrice());
         }
 
         if (loggedInUser != null){
