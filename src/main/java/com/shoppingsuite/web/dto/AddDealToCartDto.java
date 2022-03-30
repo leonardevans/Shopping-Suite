@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class AddToCartDto {
-    @NotNull(message = "product Id may not be null")
-    private Long productId;
+public class AddDealToCartDto {
+    @NotNull(message = "Deal Id may not be null")
+    private Long dealId;
 
     @NotNull(message = "quantity may not be null")
     private int quantity;
