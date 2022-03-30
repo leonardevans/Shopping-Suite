@@ -20,7 +20,9 @@
 
                             <div class="panel panel-default" th:each="prodCat : ${productCategories}">
                                 <div class="panel-heading">
-                                    <h4 class="panel-title"><a th:href="@{/products/{prodCatId} (prodCatId=${prodCat.id})}" >[[${prodCat.name}]]</a></h4>
+                                    <h4 class="panel-title"><a
+                                            th:href="@{/products/{prodCatId} (prodCatId=${prodCat.id})}">[[${prodCat.name}]]</a>
+                                    </h4>
                                 </div>
                             </div>
 
@@ -33,26 +35,32 @@
                     <div class="features_items"><!--products-->
                         <h2 class="title text-center">Products</h2>
 
-                        <div class="col-sm-4 product-wrapper" th:each="product : ${products}" th:attr="data-productId=${product.id}">
+                        <div class="col-sm-4 product-wrapper" th:each="product : ${products}"
+                             th:attr="data-productId=${product.id}">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
-                                        <img th:src="@{${product.imageUrl}}" th:alt="${product.name}" />
+                                        <img th:src="@{${product.imageUrl}}" th:alt="${product.name}"/>
                                         <h2>$[[${product.price}]]</h2>
                                         <p>[[${product.name}]]</p>
-                                        <a href="#" th:attr="data-productId=${product.id}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <a href="#" th:attr="data-productid=${product.id}"
+                                           class="btn btn-default add-to-cart add-product-to-cart-btn"><i
+                                                class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
                                     <div class="product-overlay">
                                         <div class="overlay-content">
                                             <h2>$[[${product.price}]]</h2>
                                             <p>[[${product.name}]]</p>
-                                            <a href="#" th:attr="data-productId=${product.id}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            <a href="#" th:attr="data-productid=${product.id}"
+                                               class="btn btn-default add-to-cart add-product-to-cart-btn"><i
+                                                    class="fa fa-shopping-cart"></i>Add to cart</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="choose">
                                     <ul class="nav nav-pills nav-justified">
-                                        <li><a th:href="@{/product/{productId} (productId=${product.id})}"><i class="fa fa-eye"></i>View Product</a></li>
+                                        <li><a th:href="@{/product/{productId} (productId=${product.id})}"><i
+                                                class="fa fa-eye"></i>View Product</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -68,16 +76,17 @@
                         <h2 class="title text-center">DEALS</h2>
 
                         <div class="tab-content">
-                            <div class="tab-pane fade active in" id="tshirt" >
+                            <div class="tab-pane fade active in" id="tshirt">
                                 <div class="col-sm-3" th:each="deal : ${deals}">
                                     <div class="product-image-wrapper">
                                         <div class="single-products">
                                             <div class="productinfo text-center">
-                                                <img th:src="@{${deal.product.imageUrl}}" alt="" />
+                                                <img th:src="@{${deal.product.imageUrl}}" alt=""/>
                                                 <h5><s>$[[${deal.product.price}]]</s></h5>
                                                 <h2>$[[${deal.dealPrice}]]</h2>
                                                 <p>[[${deal.product.name}]]</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                <a href="#" class="btn btn-default add-to-cart"><i
+                                                        class="fa fa-shopping-cart"></i>Add to cart</a>
                                             </div>
 
                                         </div>
@@ -94,6 +103,48 @@
             </div>
         </div>
     </section>
+</th:block>
+
+<th:block layout:fragment="javascript">
+    <script type="text/javascript">
+        //adding product to cart
+        $(".add-product-to-cart-btn").click(e => {
+            e.preventDefault();
+
+            let productId = $(e.target).data('productid');
+
+
+            $.ajax({
+                method: 'post',
+                url: "/api/add-product-to-cart",
+                dataType: "application/json",
+                data: JSON.stringify({
+                    "productId": productId,
+                    "quantity": 1
+                }),
+                contentType: "application/json",
+                success: function (data, textStatus, xhr) {
+                    if (xhr.status == 403) {
+                        alert("please sign in to make a review");
+                    } else if (xhr.status == 200) {
+                        alert("Product added to cart");
+                    } else {
+                        alert("Bad thing happened! " + xhr.statusText);
+                    }
+                    console.log(data)
+                },
+                error: function (xhr, textStatus) {
+                    console.log("status code: " + xhr.status);
+                    console.log("res: " + textStatus);
+                    if (xhr.status == 200) {
+                        alert("Product added to cart");
+                    } else {
+                        alert("Bad thing happened! " + xhr.statusText);
+                    }
+                }
+            });
+        });
+    </script>
 </th:block>
 
 </body>

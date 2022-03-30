@@ -129,7 +129,7 @@
                         alert("please sign in to make a review");
                     }
                     else if (xhr.status == 200){
-                        alert("Prooduct review added");
+                        alert("Product review added");
                     }
                     else{
                         alert("Bad thing happened! " + xhr.statusText);
@@ -143,8 +143,6 @@
             e.preventDefault();
 
             let productId = $(e.target).data('productid');
-            console.log("e.target " + e.target);
-            console.log("pId: " + productId);
 
             $.ajax({
                 method: 'post',
