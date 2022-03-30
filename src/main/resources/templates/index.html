@@ -85,7 +85,7 @@
                                                 <h5><s>$[[${deal.product.price}]]</s></h5>
                                                 <h2>$[[${deal.dealPrice}]]</h2>
                                                 <p>[[${deal.product.name}]]</p>
-                                                <a href="#" class="btn btn-default add-to-cart"><i
+                                                <a href="#" class="btn btn-default add-to-cart add-deal-to-cart-btn" th:attr="data-dealid=${deal.id}"><i
                                                         class="fa fa-shopping-cart"></i>Add to cart</a>
                                             </div>
 
@@ -138,6 +138,42 @@
                     console.log("res: " + textStatus);
                     if (xhr.status == 200) {
                         alert("Product added to cart");
+                    } else {
+                        alert("Bad thing happened! " + xhr.statusText);
+                    }
+                }
+            });
+        });
+
+        //adding deal to cart
+        $(".add-deal-to-cart-btn").click(e => {
+            e.preventDefault();
+
+            let dealId = $(e.target).data('dealid');
+
+
+            $.ajax({
+                method: 'post',
+                url: "/api/add-deal-to-cart",
+                dataType: "application/json",
+                data: JSON.stringify({
+                    "dealId": dealId,
+                    "quantity": 1
+                }),
+                contentType: "application/json",
+                success: function (data, textStatus, xhr) {
+                    if (xhr.status == 200) {
+                        alert("Deal added to cart");
+                    } else {
+                        alert("Bad thing happened! " + xhr.statusText);
+                    }
+                    console.log(data)
+                },
+                error: function (xhr, textStatus) {
+                    console.log("status code: " + xhr.status);
+                    console.log("res: " + textStatus);
+                    if (xhr.status == 200) {
+                        alert("Deal added to cart");
                     } else {
                         alert("Bad thing happened! " + xhr.statusText);
                     }
