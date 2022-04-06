@@ -29,34 +29,34 @@ public class CartUtil {
             Optional<Cart> cart = cartService.getByUserAndOrdered(loggedInUser, false);
             if (cart.isPresent()){
                 userCart = cart.get();
-
-                //get the cart saved in session
-                Cart sessionCart = null;
-                try {
-                    sessionCart = (Cart) httpSession.getAttribute("cart");
-                }catch (Exception e){
-                    System.out.println("No cart saved in session");
-                    System.out.println(e.getMessage());
-                    e.printStackTrace();
-                }
-
-                //merge the carts
-                if (sessionCart != null){
-                    Cart finalUserCart = userCart;
-                    sessionCart.getCartProducts().forEach(cartProduct -> {
-                        //if userCart does not contain this session cartProduct we add it to the userCart
-                        if (!finalUserCart.getCartProducts().contains(cartProduct)){
-                            finalUserCart.getCartProducts().add(cartProduct);
-                        }
-                    });
-
-                    userCart = finalUserCart;
-
-                    //set the cart to session variable
-                    httpSession.setAttribute("cart", userCart);
-                }
             }
         }
+
+        //get the cart saved in session
+        Cart sessionCart = null;
+        try {
+            sessionCart = (Cart) httpSession.getAttribute("cart");
+        }catch (Exception e){
+            System.out.println("No cart saved in session");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        //merge the carts
+        if (sessionCart != null){
+            Cart finalUserCart = userCart;
+            sessionCart.getCartProducts().forEach(cartProduct -> {
+                //if userCart does not contain this session cartProduct we add it to the userCart
+                if (!finalUserCart.getCartProducts().contains(cartProduct)){
+                    finalUserCart.getCartProducts().add(cartProduct);
+                }
+            });
+
+            userCart = finalUserCart;
+        }
+
+        //set the cart to session variable
+        httpSession.setAttribute("cart", userCart);
 
         return userCart;
     }

@@ -57,7 +57,7 @@ public class Cart {
             return false;
         }
         final Cart cart = (Cart) obj;
-        if (!id.equals(cart.id)) {
+        if (id != cart.id) {
             return false;
         }
         return true;
