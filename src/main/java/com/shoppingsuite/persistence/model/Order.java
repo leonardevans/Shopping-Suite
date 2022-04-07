@@ -32,7 +32,7 @@ public class Order {
     private String currency;
 
 
-    @Column(nullable = false, updatable = false, insertable = false)
+    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp orderDate;
 
     public Order(Cart cart, double amount, String currency) {

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Controller
 public class MainController implements IMainController {
@@ -154,6 +155,14 @@ public class MainController implements IMainController {
     public String showCartPage(Model model, HttpSession httpSession) {
         Cart cart = cartUtil.updateCart(httpSession);
         model.addAttribute("cart", cart);
+
+        AtomicReference<Double> total = new AtomicReference<>((double) 0);
+        cart.getCartProducts().stream().forEach(cartProduct -> {
+            double subTotal = cartProduct.getPrice()* cartProduct.getQuantity();
+            total.updateAndGet(v -> new Double((double) (v + subTotal)));
+        });
+
+        model.addAttribute("total", total.get());
         return "/cart";
     }
 

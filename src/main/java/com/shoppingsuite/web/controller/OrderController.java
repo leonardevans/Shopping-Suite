@@ -95,7 +95,6 @@ public class OrderController {
 
     @GetMapping("/payment_failed/{orderId}")
     public String processOrderPaymentFailure(@PathVariable("orderId") long orderId, Model model) {
-        Order order = orderRepo.getById(orderId);
         orderRepo.deleteById(orderId);
 
         model.addAttribute("errorMessage", "Failed to complete payment process!");
@@ -105,7 +104,6 @@ public class OrderController {
 
     @GetMapping(CANCEL_URL + "/{orderId}")
     public String processCancelOrderPayment(@PathVariable("orderId") long orderId, Model model) {
-        Order order = orderRepo.getById(orderId);
         orderRepo.deleteById(orderId);
 
         model.addAttribute("errorMessage", "Payment Cancelled!");
@@ -141,4 +139,9 @@ public class OrderController {
 
         return "redirect:/";
     }
+
+//    @GetMapping("/{orderId}")
+//    public String showOrder(Model model){
+//
+//    }
 }

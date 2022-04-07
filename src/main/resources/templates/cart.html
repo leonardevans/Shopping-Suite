@@ -60,6 +60,22 @@
       </div>
     </div>
   </section> <!--/#cart_items-->
+
+  <section id="do_action" sec:authorize="isAuthenticated()" th:if="${cart.getCartProducts().size() > 0}">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="total_area">
+            <ul>
+              <li>Cart Sub Total <span>$[[${total}]]</span></li>
+              <li>Total <span>$[[${total}]]</span></li>
+            </ul>
+            <a class="btn btn-default check_out" th:href="@{/orders/make}">Place Order</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </th:block>
 
 <th:block layout:fragment="javascript">
