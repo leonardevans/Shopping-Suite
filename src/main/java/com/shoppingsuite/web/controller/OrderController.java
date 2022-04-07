@@ -3,6 +3,7 @@ package com.shoppingsuite.web.controller;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
+import com.shoppingsuite.persistence.dao.OrderRepo;
 import com.shoppingsuite.persistence.model.Cart;
 import com.shoppingsuite.persistence.model.Order;
 import com.shoppingsuite.persistence.model.User;
@@ -16,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -23,12 +25,13 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Controller
-@RequestMapping("/order/*")
+@RequestMapping("/orders/*")
 public class OrderController {
     private OrderService orderService;
     private AuthUtil authUtil;
     private CartService cartService;
-    PaypalService paypalService;
+    private PaypalService paypalService;
+    private OrderRepo orderRepo;
 
     @Value("${app.currency}")
     String currency;
@@ -81,11 +84,21 @@ public class OrderController {
             }
         } catch (PayPalRESTException e) {
             e.printStackTrace();
-            return "redirect:/cart?payment_failed" + order.getId();
+            return "redirect:/orders/payment_failed/" + order.getId();
         }
 
         model.addAttribute("order", order);
 
         return "/orders/"+order.getId() + "?created";
+    }
+
+    @GetMapping("/payment_failed/{orderId}")
+    public String processOrderPaymentFailure(@PathVariable("orderId") long orderId, Model model) {
+        Order order = orderRepo.getById(orderId);
+        orderRepo.deleteById(orderId);
+
+        model.addAttribute("errorMessage", "Failed to complete payment process!");
+
+        return "/cart";
     }
 }
