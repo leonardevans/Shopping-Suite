@@ -28,11 +28,18 @@ public class Order {
     @Column(columnDefinition = "text")
     private String payment_details;
 
+    private double amount;
     private String currency;
 
 
     @Column(nullable = false, updatable = false, insertable = false)
     private Timestamp orderDate;
+
+    public Order(Cart cart, double amount, String currency) {
+        this.cart = cart;
+        this.amount = amount;
+        this.currency = currency;
+    }
 
     @Override
     public int hashCode() {
