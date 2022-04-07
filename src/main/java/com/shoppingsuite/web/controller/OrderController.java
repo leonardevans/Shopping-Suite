@@ -101,4 +101,14 @@ public class OrderController {
 
         return "/cart";
     }
+
+    @GetMapping(CANCEL_URL + "/{orderId}")
+    public String processCancelOrderPayment(@PathVariable("orderId") long orderId, Model model) {
+        Order order = orderRepo.getById(orderId);
+        orderRepo.deleteById(orderId);
+
+        model.addAttribute("errorMessage", "Payment Cancelled!");
+
+        return "/cart";
+    }
 }
