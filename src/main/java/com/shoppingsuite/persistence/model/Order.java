@@ -23,6 +23,13 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    private boolean paid = false;
+
+    @Column(columnDefinition = "text")
+    private String payment_details;
+
+    private String currency;
+
 
     @Column(nullable = false, updatable = false, insertable = false)
     private Timestamp orderDate;
