@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -110,5 +111,34 @@ public class OrderController {
         model.addAttribute("errorMessage", "Payment Cancelled!");
 
         return "/cart";
+    }
+
+    @GetMapping(SUCCESS_URL + "/{orderId}")
+    public String processSuccessOrderPayment(@PathVariable("orderId") long orderId, @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+        try
+        {
+            Payment payment = paypalService.executePayment(paymentId, payerId);
+            System.out.println(payment.toString());
+
+            Order order = orderRepo.getById(orderId);
+            order.setPayment_details(payment.getState());
+            orderRepo.save(order);
+
+            if (payment.getState().equals("approved"))
+            {
+                return "redirect:/orders/" + orderId +"?order_success";
+            }
+        }
+        catch (PayPalRESTException e)
+        {
+            System.out.println(e.getMessage());
+            if (e.getMessage().contains("PAYMENT_ALREADY_DONE")){
+                return "redirect:/orders/" + orderId +"?order_success";
+            }
+
+            return "redirect:/orders/payment_failed/" + orderId;
+        }
+
+        return "redirect:/";
     }
 }
