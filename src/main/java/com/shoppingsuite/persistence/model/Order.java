@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -31,9 +32,8 @@ public class Order {
     private double amount;
     private String currency;
 
-
-    @Column(nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp orderDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date orderDate;
 
     public Order(Cart cart, double amount, String currency) {
         this.cart = cart;
