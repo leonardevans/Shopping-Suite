@@ -37,8 +37,8 @@ public class OrderController {
     @Value("${app.currency}")
     String currency;
 
-    private static final String SUCCESS_URL = "/pay/success";
-    private static final String CANCEL_URL = "/pay/cancel";
+    private static final String SUCCESS_URL = "/orders/success";
+    private static final String CANCEL_URL = "/orders/cancel";
 
     @Value("${BASE_URL}")
     private String BASE_URL;
