@@ -102,7 +102,7 @@ public class OrderController {
         return "/cart";
     }
 
-    @GetMapping(CANCEL_URL + "/{orderId}")
+    @GetMapping("/cancel/{orderId}")
     public String processCancelOrderPayment(@PathVariable("orderId") long orderId, Model model) {
         orderRepo.deleteById(orderId);
 
@@ -111,7 +111,7 @@ public class OrderController {
         return "/cart";
     }
 
-    @GetMapping(SUCCESS_URL + "/{orderId}")
+    @GetMapping("/success/{orderId}")
     public String processSuccessOrderPayment(@PathVariable("orderId") long orderId, @RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
         try
         {
