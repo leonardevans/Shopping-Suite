@@ -11,6 +11,7 @@ import com.shoppingsuite.security.AuthUtil;
 import com.shoppingsuite.service.CartService;
 import com.shoppingsuite.service.OrderService;
 import com.shoppingsuite.service.PaypalService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,11 +45,12 @@ public class OrderController {
     private String BASE_URL;
 
     @Autowired
-    public OrderController(OrderService orderService, AuthUtil authUtil, CartService cartService, PaypalService paypalService) {
+    public OrderController(OrderService orderService, AuthUtil authUtil, CartService cartService, PaypalService paypalService, OrderRepo orderRepo) {
         this.orderService = orderService;
         this.authUtil = authUtil;
         this.cartService = cartService;
         this.paypalService = paypalService;
+        this.orderRepo = orderRepo;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -140,8 +142,16 @@ public class OrderController {
         return "redirect:/";
     }
 
-//    @GetMapping("/{orderId}")
-//    public String showOrder(Model model){
-//
-//    }
+    @GetMapping("/{orderId}")
+    public String showOrder(Model model, @PathVariable Long orderId) throws NotFoundException {
+        Order order = orderRepo.findById(orderId).orElseThrow(() -> new NotFoundException("No orders found with id: " + orderId));
+        model.addAttribute("order", order);
+        return "/order";
+    }
+
+    @GetMapping
+    public String showUserOrders(Model model){
+        model.addAttribute("orders", orderService.getByUserId(authUtil.getLoggedInUser().getId()));
+        return "/orders";
+    }
 }
