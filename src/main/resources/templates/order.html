@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Order</title>
+</head>
+<body>
+
+<th:block class="container" layout:fragment="content">
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li class="active">Order</li>
+                </ol>
+            </div>
+            <div class="table-responsive cart_info">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Item</td>
+                        <td class="description">Name</td>
+                        <td class="price">Price</td>
+                        <td class="quantity">Quantity</td>
+                        <td class="total">Total</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cartProduct : ${order.cart.cartProducts}">
+                        <td class="cart_product">
+                            <a th:href="@{/product/{productId} (productId=${cartProduct.product.id})}"><img th:src="@{${cartProduct.product.imageUrl}}" alt="" style="max-width: 50px"></a>
+                        </td>
+                        <td class="cart_description">
+                            <h4><a th:href="@{/product/{productId} (productId=${cartProduct.product.id})}">[[${cartProduct.product.name}]]</a></h4>
+                        </td>
+                        <td class="cart_price">
+                            <p>$[[${cartProduct.price}]]</p>
+                        </td>
+                        <td class="cart_quantity">
+                            [[${cartProduct.quantity}]]
+                        </td>
+                        <td class="cart_total">
+                            <p class="cart_total_price">$<span>[[${cartProduct.price * cartProduct.quantity}]]</span></p>
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section> <!--/#cart_items-->
+
+    <section id="do_action">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="total_area">
+                        <ul>
+                            <li>Sub Total <span>$[[${order.amount}]]</span></li>
+                            <li>Total <span>$[[${order.amount}]]</span></li>
+                            <li>Date <span>[[${order.orderDate}]]</span></li>
+                            <li>Status <span>[[${order.orderStatus}]]</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</th:block>
+
+
+</body>
+</html>

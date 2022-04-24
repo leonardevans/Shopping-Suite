@@ -4,6 +4,7 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.shoppingsuite.persistence.dao.OrderRepo;
+import com.shoppingsuite.persistence.enums.OrderStatus;
 import com.shoppingsuite.persistence.model.Cart;
 import com.shoppingsuite.persistence.model.Order;
 import com.shoppingsuite.persistence.model.User;
@@ -122,7 +123,11 @@ public class OrderController {
 
             Order order = orderRepo.getById(orderId);
             order.setPayment_details(payment.getState());
+            order.getCart().setOrdered(true);
+            order.getCart().setTotal(order.getAmount());
+            order.setOrderStatus(OrderStatus.PENDING);
             orderRepo.save(order);
+
 
             if (payment.getState().equals("approved"))
             {

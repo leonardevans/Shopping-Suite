@@ -3,6 +3,7 @@ package com.shoppingsuite.persistence.model;
 import com.shoppingsuite.persistence.enums.OrderStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -33,6 +34,8 @@ public class Order {
     private String currency;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private java.util.Date orderDate;
 
     public Order(Cart cart, double amount, String currency) {

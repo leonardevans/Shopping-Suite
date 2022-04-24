@@ -21,8 +21,8 @@
             <ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
               <li ><a th:href="@{/user/account}"><i class="fa fa-user"></i> Account</a></li>
               <li><a th:href="@{/admin/dashboard}" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_EDITOR')"><i class="fa fa-crosshairs"></i> Dashboard</a></li>
-              <li><a th:href="@{/user/checkout}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-              <li><a th:href="@{/user/orders}"><i class="fa fa-crosshairs"></i> Orders</a></li>
+<!--              <li><a th:href="@{/user/checkout}"><i class="fa fa-crosshairs"></i> Checkout</a></li>-->
+              <li><a th:href="@{/orders/}"><i class="fa fa-crosshairs"></i> Orders</a></li>
               <li><a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
               <li><a th:href="@{/logout}"><i class="fa fa-lock"></i> Logout</a></li>
             </ul>
