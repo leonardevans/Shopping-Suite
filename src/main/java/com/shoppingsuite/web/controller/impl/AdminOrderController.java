@@ -1,6 +1,7 @@
 package com.shoppingsuite.web.controller.impl;
 
 import com.shoppingsuite.persistence.dao.OrderRepo;
+import com.shoppingsuite.persistence.enums.OrderStatus;
 import com.shoppingsuite.persistence.model.Order;
 import com.shoppingsuite.service.OrderService;
 import com.shoppingsuite.web.controller.IAdminOrderController;
@@ -32,16 +33,17 @@ public class AdminOrderController implements IAdminOrderController {
     public String showEditOrder(Model model, @PathVariable Long orderId) throws NotFoundException {
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new NotFoundException("No order found with id: " + orderId));
         model.addAttribute("order", order);
+        model.addAttribute("orderStatuses", OrderStatus.values());
         return "/admin/order";
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     @Override
     public String updateOrder(@ModelAttribute Order order) throws NotFoundException {
         Order orderToUpdate = orderRepo.findById(order.getId()).orElseThrow(() -> new NotFoundException("No order found with id: " + order.getId()));
         orderToUpdate.setOrderStatus(order.getOrderStatus());
         orderRepo.save(orderToUpdate);
-        return "redirect:/admin/orders/"+ order.getId() + "?update_success";
+        return "redirect:/admin/orders/?update_success";
     }
 
     @GetMapping("/delete/{orderId}")

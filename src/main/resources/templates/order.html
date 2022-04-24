@@ -16,6 +16,8 @@
                     <li class="active">Order</li>
                 </ol>
             </div>
+            <p class="text-success" th:if="${param.created}">Order created successfully</p>
+            <p class="text-success" th:if="${param.order_success}">Order created successfully</p>
             <div class="table-responsive cart_info">
                 <table class="table table-condensed">
                     <thead>

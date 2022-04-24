@@ -16,6 +16,7 @@
           <li class="active">Shopping Cart</li>
         </ol>
       </div>
+      <p class="text-danger" th:if="${errorMessage != null}">[[${errorMessage}]]</p>
       <div class="table-responsive cart_info">
         <table class="table table-condensed">
           <thead>

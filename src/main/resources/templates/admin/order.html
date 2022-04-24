@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/admin_layout}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Order</title>
+</head>
+<body>
+
+<!-- Content Header (Page header) -->
+<div class="content-header" layout:fragment="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Order</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a th:href="@{/admin/home}">Home</a></li>
+          <li class="breadcrumb-item"><a th:href="@{/admin/orders}">Orders</a></li>
+          <li class="breadcrumb-item active">Edit Order
+          </li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content" layout:fragment="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- jquery validation -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Edit Order</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <div class="card-body p-0">
+            <h4>Customer</h4>
+
+            <table class="table table-striped projects">
+              <thead>
+              <tr>
+                <th>
+                  First Name
+                </th>
+                <th>
+                  Email
+                </th>
+                <th>
+                  Status
+                </th>
+                <th>
+                  Order Date
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr >
+                <td>[[${order.cart.user.firstName}]]</td>
+                <td>
+                  [[${order.cart.user.email}]]
+                </td>
+                <td>
+                  [[${order.orderStatus}]]
+                </td>
+                <td>
+                  [[${order.orderDate}]]
+                </td>
+
+              </tr>
+
+              </tbody>
+            </table>
+
+            <br>
+
+            <h4>Order Items</h4>
+            <table class="table table-striped projects">
+              <thead>
+              <tr>
+                <th>
+                  Item
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Price
+                </th>
+                <th>
+                  Quantity
+                </th>
+                <th>
+                  Total
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="cartProduct : ${order.cart.cartProducts}">
+                <td >
+                  <a th:href="@{/product/{productId} (productId=${cartProduct.product.id})}"><img th:src="@{${cartProduct.product.imageUrl}}" alt="" style="max-width: 50px"></a>
+                </td>
+                <td >
+                  <h4><a th:href="@{/product/{productId} (productId=${cartProduct.product.id})}">[[${cartProduct.product.name}]]</a></h4>
+                </td>
+                <td >
+                  <p>$[[${cartProduct.price}]]</p>
+                </td>
+                <td >
+                  [[${cartProduct.quantity}]]
+                </td>
+                <td >
+                  <p class="cart_total_price">$<span>[[${cartProduct.price * cartProduct.quantity}]]</span></p>
+                </td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <br>
+          <section id="do_action">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="total_area">
+                    <ul>
+                      <li>Sub Total <span>$[[${order.amount}]]</span></li>
+                      <li>Total <span>$[[${order.amount}]]</span></li>
+                      <li>Date <span>[[${order.orderDate}]]</span></li>
+                      <li>Status <span>[[${order.orderStatus}]]</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <br>
+          <br>
+          <h4>Edit Order</h4>
+          <form th:action="@{/admin/orders/update}" th:object="${order}" method="post">
+            <input type="hidden" name="id" th:field="*{id}">
+
+            <div class="form-group">
+              <label for="prodCat">Order Status</label>
+              <select class="custom-select rounded-0" id="prodCat" th:field="*{orderStatus}">
+                <option th:each="orderStatus : ${orderStatuses}" th:value="${orderStatus}"
+                        th:text="${orderStatus}"></option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Order
+            </button>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+      <!-- right column -->
+      <div class="col-md-6">
+
+      </div>
+      <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+
+
+</section>
+<!-- /.content -->
+
+</body>
+</html>
