@@ -61,10 +61,42 @@ public class RestController {
         //the product from db
         Product product = productService.getById(addToCartDto.getProductId()).orElseThrow(Exception::new);
 
-        if (!userCart.getCartProducts().contains(product)){
+        //find cart product with this product
+        //find this session cart product in user's cart
+        CartProduct existCartProduct = userCart.getCartProducts().stream().filter(cartProduct2 -> cartProduct2.getProduct().getId().equals(product.getId())).findFirst().orElse(null);
+
+        if (existCartProduct == null){
             CartProduct cartProduct = new CartProduct(userCart, product, addToCartDto.getQuantity(), product.getPrice());
             userCart.getCartProducts().add(cartProduct);
         }
+
+        if (loggedInUser != null){
+            userCart.setUser(loggedInUser);
+
+            //save the cart
+            userCart = cartService.save(userCart);
+        }
+
+
+        //set the cart to session variable
+        httpSession.setAttribute("cart", userCart);
+
+        return ResponseEntity.ok(true);
+    }
+
+    @PostMapping(value = "/api/remove-product-from-cart")
+    public ResponseEntity removeProductFromCart(@Valid @RequestBody AddToCartDto addToCartDto, HttpSession httpSession) throws Exception {
+        User loggedInUser = authUtil.getLoggedInUser();
+
+        Cart userCart = cartUtil.updateCart(httpSession);
+
+        System.out.println("product id: " + addToCartDto.getProductId());
+
+        //get the product from db
+        Product product = productService.getById(addToCartDto.getProductId()).orElseThrow(Exception::new);
+
+        //remove product from cart
+        userCart.getCartProducts().removeIf(cartProduct -> cartProduct.getProduct().getId().equals(product.getId()));
 
         if (loggedInUser != null){
             userCart.setUser(loggedInUser);
