@@ -139,6 +139,29 @@ public class RestController {
         return ResponseEntity.ok(true);
     }
 
+    @PostMapping(value = "/api/clear-cart")
+    public ResponseEntity clearCart( HttpSession httpSession) throws Exception {
+        User loggedInUser = authUtil.getLoggedInUser();
+
+        Cart userCart = cartUtil.updateCart(httpSession);
+
+        //clear cart products
+        userCart.getCartProducts().clear();
+
+        if (loggedInUser != null){
+            userCart.setUser(loggedInUser);
+
+            //save the cart
+            userCart = cartService.save(userCart);
+        }
+
+
+        //set the cart to session variable
+        httpSession.setAttribute("cart", userCart);
+
+        return ResponseEntity.ok(true);
+    }
+
     @PostMapping(value = "/api/add-deal-to-cart")
     public ResponseEntity addDealToCart(@Valid @RequestBody AddDealToCartDto addDealToCartDto, HttpSession httpSession) throws Exception {
         User loggedInUser = authUtil.getLoggedInUser();
