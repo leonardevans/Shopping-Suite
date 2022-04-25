@@ -51,7 +51,7 @@ public class CartUtil {
                 CartProduct cartProduct1 = finalUserCart.getCartProducts().stream().filter(cartProduct2 -> cartProduct2.getProduct().getId().equals(cartProduct.getProduct().getId())).findFirst().orElse(null);
 
                 //if it does not exist add it to the final user cart
-                if (cartProduct1.equals(null)){
+                if (cartProduct1 == null){
                     finalUserCart.getCartProducts().add(cartProduct);
                 }
             });
@@ -61,6 +61,11 @@ public class CartUtil {
 
         //set the cart to session variable
         httpSession.setAttribute("cart", userCart);
+
+        //save cart to db
+        if (loggedInUser != null){
+            cartService.save( userCart);
+        }
 
         return userCart;
     }
