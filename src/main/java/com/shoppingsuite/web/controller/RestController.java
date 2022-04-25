@@ -62,7 +62,6 @@ public class RestController {
         Product product = productService.getById(addToCartDto.getProductId()).orElseThrow(Exception::new);
 
         //find cart product with this product
-        //find this session cart product in user's cart
         CartProduct existCartProduct = userCart.getCartProducts().stream().filter(cartProduct2 -> cartProduct2.getProduct().getId().equals(product.getId())).findFirst().orElse(null);
 
         if (existCartProduct == null){
@@ -121,7 +120,10 @@ public class RestController {
         //get the deal from db
         Deal deal = dealService.getById(addDealToCartDto.getDealId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
 
-        if (!userCart.getCartProducts().contains(deal.getProduct())){
+        //find cart product with this product
+        CartProduct existCartProduct = userCart.getCartProducts().stream().filter(cartProduct2 -> cartProduct2.getProduct().getId().equals(deal.getProduct().getId())).findFirst().orElse(null);
+
+        if (existCartProduct == null){
             CartProduct cartProduct = new CartProduct(userCart, deal.getProduct(), addDealToCartDto.getQuantity(), deal.getDealPrice());
             userCart.getCartProducts().add(cartProduct);
         }else{
