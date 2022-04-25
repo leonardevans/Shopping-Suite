@@ -30,6 +30,8 @@ public class CartUtil {
             Optional<Cart> cart = cartService.getByUserAndOrdered(loggedInUser, false);
             if (cart.isPresent()){
                 userCart = cart.get();
+            }else{
+                userCart.setUser(loggedInUser);
             }
         }
 
