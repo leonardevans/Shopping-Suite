@@ -1,5 +1,6 @@
 package com.shoppingsuite.utils;
 
+import com.shoppingsuite.persistence.joins.CartProduct;
 import com.shoppingsuite.persistence.model.Cart;
 import com.shoppingsuite.persistence.model.User;
 import com.shoppingsuite.security.AuthUtil;
@@ -46,8 +47,11 @@ public class CartUtil {
         if (sessionCart != null){
             Cart finalUserCart = userCart;
             sessionCart.getCartProducts().forEach(cartProduct -> {
-                //if userCart does not contain this session cartProduct we add it to the userCart
-                if (!finalUserCart.getCartProducts().contains(cartProduct)){
+                //find this session cart product in user's cart
+                CartProduct cartProduct1 = finalUserCart.getCartProducts().stream().filter(cartProduct2 -> cartProduct2.getProduct().getId().equals(cartProduct.getProduct().getId())).findFirst().orElse(null);
+
+                //if it does not exist add it to the final user cart
+                if (cartProduct1.equals(null)){
                     finalUserCart.getCartProducts().add(cartProduct);
                 }
             });
