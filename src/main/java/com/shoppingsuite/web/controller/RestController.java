@@ -127,7 +127,7 @@ public class RestController {
             CartProduct cartProduct = new CartProduct(userCart, deal.getProduct(), addDealToCartDto.getQuantity(), deal.getDealPrice());
             userCart.getCartProducts().add(cartProduct);
         }else{
-            userCart.getCartProducts().stream().filter(cartProduct -> cartProduct.getProduct().equals(deal.getProduct()) ).findFirst().get().setPrice(deal.getDealPrice());
+            userCart.getCartProducts().stream().filter(cartProduct -> cartProduct.getProduct().getId().equals(deal.getProduct().getId()) ).findFirst().get().setPrice(deal.getDealPrice());
         }
 
         if (loggedInUser != null){
