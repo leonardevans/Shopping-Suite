@@ -42,9 +42,9 @@
             </td>
             <td class="cart_quantity">
               <div class="cart_quantity_button">
-                <a class="cart_quantity_up" href=""> + </a>
-                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                <a class="cart_quantity_down" href=""> - </a>
+<!--                <a class="cart_quantity_up" href=""> + </a>-->
+                <input class="cart_quantity_input" type="number" name="quantity" min="1" th:value="${cartProduct.quantity}" autocomplete="off" size="2" th:attr="data-item_id=${cartProduct.product.id}">
+<!--                <a class="cart_quantity_down" href=""> - </a>-->
               </div>
             </td>
             <td class="cart_total">
@@ -114,6 +114,46 @@
           console.log("res: " + textStatus);
           if (xhr.status == 200) {
             alert("Product removed from cart");
+            location.reload();
+          } else {
+            alert("Bad thing happened! " + xhr.statusText);
+          }
+        }
+      });
+    });
+
+    //update cart product quantity
+    $(".cart_quantity_input").change(e => {
+      e.preventDefault();
+
+      let productId = $(e.target).data('item_id');
+      let quantity = $(e.target).val();
+
+      $.ajax({
+        method: 'post',
+        url: "/api/update-cart-product-quantity",
+        dataType: "application/json",
+        data: JSON.stringify({
+          "productId": productId,
+          "quantity": quantity
+        }),
+        contentType: "application/json",
+        success: function (data, textStatus, xhr) {
+          if (xhr.status == 403) {
+            alert("please sign in to make a review");
+          } else if (xhr.status == 200) {
+            alert("Cart product quantity updated!");
+            location.reload();
+          } else {
+            alert("Bad thing happened! " + xhr.statusText);
+          }
+          console.log(data)
+        },
+        error: function (xhr, textStatus) {
+          console.log("status code: " + xhr.status);
+          console.log("res: " + textStatus);
+          if (xhr.status == 200) {
+            alert("Cart product quantity updated!");
             location.reload();
           } else {
             alert("Bad thing happened! " + xhr.statusText);
