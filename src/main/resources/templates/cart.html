@@ -30,7 +30,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr th:each="cartProduct : ${cart.getCartProducts()}">
+          <tr th:each="cartProduct : ${cart.getCartProducts()}" th:attr="data-row_item_id=${cartProduct.product.id}">
             <td class="cart_product">
               <a th:href="@{/product/{productId} (productId=${cartProduct.product.id})}"><img th:src="@{${cartProduct.product.imageUrl}}" alt="" style="max-width: 50px"></a>
             </td>
@@ -51,7 +51,7 @@
               <p class="cart_total_price">$<span>[[${cartProduct.price * cartProduct.quantity}]]</span></p>
             </td>
             <td class="cart_delete">
-              <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+              <a class="cart_quantity_delete" href="#"><i class="fa fa-times" th:attr="data-item_id=${cartProduct.product.id}"></i></a>
             </td>
           </tr>
 
@@ -77,6 +77,51 @@
       </div>
     </div>
   </section>
+</th:block>
+
+<th:block layout:fragment="javascript">
+  <script type="text/javascript">
+    //remove product from cart
+    $(".fa-times").click(e => {
+      e.preventDefault();
+
+      let productId = $(e.target).data('item_id');
+      console.log("product Id: " + productId);
+
+
+      $.ajax({
+        method: 'post',
+        url: "/api/remove-product-from-cart",
+        dataType: "application/json",
+        data: JSON.stringify({
+          "productId": productId,
+          "quantity": 1
+        }),
+        contentType: "application/json",
+        success: function (data, textStatus, xhr) {
+          if (xhr.status == 403) {
+            alert("please sign in to make a review");
+          } else if (xhr.status == 200) {
+            alert("Product removed from cart");
+            location.reload();
+          } else {
+            alert("Bad thing happened! " + xhr.statusText);
+          }
+          console.log(data)
+        },
+        error: function (xhr, textStatus) {
+          console.log("status code: " + xhr.status);
+          console.log("res: " + textStatus);
+          if (xhr.status == 200) {
+            alert("Product removed from cart");
+            location.reload();
+          } else {
+            alert("Bad thing happened! " + xhr.statusText);
+          }
+        }
+      });
+    });
+  </script>
 </th:block>
 
 </body>
