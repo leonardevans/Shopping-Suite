@@ -148,7 +148,7 @@
                             <li class="paginate_button page-item previous" id="example2_previous">
 
                                 <a th:if="${currentPage > 1}"
-                                   th:href="@{'/admin/users/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   th:href="@{'/admin/products/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
                                    aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
                                 <span class="page-link disabled" th:unless="${currentPage > 1}">Previous <span
                                         class="sr-only">(current)</span> </span>
@@ -156,7 +156,7 @@
                             <li th:each="i: ${#numbers.sequence(1, totalPages)}"
                                 th:class="${currentPage != i ? 'paginate_button page-item' : 'paginate_button page-item active'}">
                                 <a th:if="${currentPage != i}"
-                                   th:href="@{'/admin/users/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   th:href="@{'/admin/products/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
                                    aria-controls="example2" data-dt-idx="2"
                                    tabindex="0" class="page-link">[[${i}]]</a>
                                 <span class="page-link"  th:if="${currentPage == i}">[[${i}]] <span class="sr-only">(current)</span> </span>
@@ -164,14 +164,14 @@
 
                             <li class="paginate_button page-item next" id="example2_next">
                                 <a th:if="${currentPage < totalPages}"
-                                   th:href="@{'/admin/users/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   th:href="@{'/admin/products/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
                                    aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
                                 <span class="page-link disabled" th:unless="${currentPage < totalPages}">Next <span
                                         class="sr-only">(current)</span> </span>
                             </li>
                             <li class="paginate_button page-item next" >
                                 <a th:if="${currentPage < totalPages}"
-                                   th:href="@{'/admin/users/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+                                   th:href="@{'/admin/products/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
                                    aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Last</a>
                                 <span class="page-link disabled" th:unless="${currentPage < totalPages}">Last <span
                                         class="sr-only">(current)</span> </span>

@@ -106,8 +106,9 @@ public class AdminDealController implements IAdminDealController {
         return "redirect:/admin/deals/?delete_error";
     }
 
+    @GetMapping("page/{pageNo}")
     @Override
-    public String findPaginated(int pageNo, String sortField, String sortDir, Model model) {
+    public String findPaginated(@PathVariable int pageNo,@RequestParam String sortField, @RequestParam String sortDir, Model model) {
         int pageSize = 10;
 
         Page<Deal> page = dealService.getAll(pageNo, pageSize, sortField, sortDir);

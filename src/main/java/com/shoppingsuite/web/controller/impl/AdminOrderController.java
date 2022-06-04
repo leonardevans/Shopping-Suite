@@ -60,8 +60,9 @@ public class AdminOrderController implements IAdminOrderController {
         return "redirect:/admin/orders?delete_success";
     }
 
+    @GetMapping("page/{pageNo}")
     @Override
-    public String findPaginated(int pageNo, String sortField, String sortDir, Model model) {
+    public String findPaginated(@PathVariable int pageNo, @RequestParam String sortField, @RequestParam String sortDir, Model model) {
         int pageSize = 10;
 
         Page<Order> page = orderService.getAll(pageNo, pageSize, sortField, sortDir);

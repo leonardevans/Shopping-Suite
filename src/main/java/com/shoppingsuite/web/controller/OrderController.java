@@ -15,6 +15,7 @@ import com.shoppingsuite.service.PaypalService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,9 +99,19 @@ public class OrderController {
 
     @GetMapping("/payment_failed/{orderId}")
     public String processOrderPaymentFailure(@PathVariable("orderId") long orderId, Model model) {
+        Order order = orderRepo.findById(orderId).orElseThrow(RuntimeException::new);
         orderRepo.deleteById(orderId);
 
+        Cart cart = order.getCart();
+        AtomicReference<Double> total = new AtomicReference<>((double) 0);
+        cart.getCartProducts().stream().forEach(cartProduct -> {
+            double subTotal = cartProduct.getPrice()* cartProduct.getQuantity();
+            total.updateAndGet(v -> new Double((double) (v + subTotal)));
+        });
+
+        model.addAttribute("total", total.get());
         model.addAttribute("errorMessage", "Failed to complete payment process!");
+        model.addAttribute("cart", cart);
 
         return "/cart";
     }
