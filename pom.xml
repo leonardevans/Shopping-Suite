@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>Shopping Suite</name>
     <description>Shopping Suite</description>
+    <packaging>war</packaging>
     <properties>
         <java.version>11</java.version>
     </properties>
